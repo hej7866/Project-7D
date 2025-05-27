@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public ResourceData data;
+    public ResourceType ResourceType => data.resourceType;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

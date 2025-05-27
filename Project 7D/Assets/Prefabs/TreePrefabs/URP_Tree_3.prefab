@@ -262,6 +262,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4144939046933883186}
   - component: {fileID: 7250050877548821893}
+  - component: {fileID: -1336979148276433414}
+  - component: {fileID: 430543588931529085}
   m_Layer: 0
   m_Name: URP_Tree_3
   m_TagString: Untagged
@@ -319,6 +321,40 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7457692230273316472}
   m_Enabled: 1
+--- !u!114 &-1336979148276433414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5400752399725384465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c52d4692ddec545a356a839b4ed39a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: ff3e835e8d0eb5e40a5a9cbb8b72136d, type: 2}
+--- !u!65 &430543588931529085
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5400752399725384465}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8183703, y: 2.4438202, z: 1.5416822}
+  m_Center: {x: 0.031775434, y: 1.3364241, z: 0}
 --- !u!1 &7271073098528902193
 GameObject:
   m_ObjectHideFlags: 0
