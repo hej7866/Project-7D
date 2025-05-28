@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6400000}
   - component: {fileID: -1048150621757920899}
   - component: {fileID: 7681443163808250668}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rock 04 prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

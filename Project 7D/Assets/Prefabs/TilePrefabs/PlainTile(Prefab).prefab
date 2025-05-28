@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8763781275002458952}
   - component: {fileID: 3922789101928279060}
   - component: {fileID: 400655706151181911}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlainTile(Prefab)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

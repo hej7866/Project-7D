@@ -15,6 +15,7 @@ MonoBehaviour:
   resourceType: 1
   displayName: "\uB3CC"
   gatherTime: 3
-  icon: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 21300000, guid: 8b7d86141c0e4f944a0b4a40cc31a5b6, type: 3}
+  category: 1
+  amount: 2
   hitSound: {fileID: 0}

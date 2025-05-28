@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(moveDir, Vector3.up);
             rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, toRotation, 360 * Time.fixedDeltaTime));
         }
+
     }
 
     void FixedUpdate()

@@ -49,6 +49,7 @@ public class ResourceInteraction : MonoBehaviour
     {
         animator.SetBool("isChopping", false);
         Destroy(targetNode.gameObject);
+        PlayerInventory.Instance.AddResource(targetNode.data.icon, targetNode.ResourceType, targetNode.data.category, targetNode.data.amount);
         targetNode = null;
         ResetGathering();
     }
