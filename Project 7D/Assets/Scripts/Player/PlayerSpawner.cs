@@ -22,5 +22,9 @@ public class PlayerSpawner : MonoBehaviour
         {
             virtualCamera.Follow = spawnedPlayer.transform;
         }
+
+        ZoneManager.Instance.SetPlayer(spawnedPlayer.transform);
     }
+
+
 }
