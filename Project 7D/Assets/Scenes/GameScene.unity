@@ -1973,14 +1973,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingPrefab: {fileID: 268069015732837839, guid: 45ae7d44604354040a650dd22eeca0c4,
     type: 3}
-  previewPrefab: {fileID: 268069015732837839, guid: 45ae7d44604354040a650dd22eeca0c4,
+  previewPrefab: {fileID: 268069015732837839, guid: fb8ff2aae8dd6d046ba01d3af272907b,
     type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  obstacleLayer:
+  placementBlockedLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   gridSize: 1
   boxSize: {x: 1, y: 1, z: 1}
 --- !u!1 &1695334817
