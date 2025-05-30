@@ -1183,6 +1183,10 @@ GameObject:
   - component: {fileID: 2356958653308694819}
   - component: {fileID: 8526921292140686169}
   - component: {fileID: 2828014366350251722}
+  - component: {fileID: -5907018894714658753}
+  - component: {fileID: 2651970728943526766}
+  - component: {fileID: -1885591024872478997}
+  - component: {fileID: -639800072973963879}
   m_Layer: 0
   m_Name: DefaultZombiePrefab
   m_TagString: Untagged
@@ -1223,12 +1227,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'root'\n\tTransform 'lowerarm_l'\n\tTransform
-    'root'\n\tTransform 'neck_01'\n\tTransform 'clavicle_l'\n\tTransform 'hand_l'\n\tTransform
-    'spine_02'\n\tTransform 'upperarm_r'\n\tTransform 'upperarm_l'\n\tTransform 'thigh_l'\n\tand
-    more ...\n\tFrom animation clip 'mixamo.com'\n\tFrom animation clip 'mixamo.com'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1248,6 +1247,86 @@ MonoBehaviour:
   BodyMaterials:
   - {fileID: 2100000, guid: cde7794b72ba29b4fbab0dc5d3c3faf0, type: 2}
   eyesGlow: 0
+--- !u!114 &-5907018894714658753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170052297267817369}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 100b3a27b423d6342bd1af5fdc01ad63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.5
+  turnSpeed: 8
+  repathInterval: 0.1
+  attackRange: 0.3
+  visualModel: {fileID: 0}
+--- !u!65 &2651970728943526766
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170052297267817369}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6379028, y: 1.6913036, z: 0.6391909}
+  m_Center: {x: 0, y: 0.8534465, z: 0}
+--- !u!54 &-1885591024872478997
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170052297267817369}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!114 &-639800072973963879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170052297267817369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f849096b96787ca49ac586a4bf550a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieSpeed: 0.5
+  zombieAttackRange: 0.3
+  anim: {fileID: 0}
 --- !u!1 &3307816542310762037
 GameObject:
   m_ObjectHideFlags: 0

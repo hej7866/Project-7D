@@ -58,7 +58,7 @@ public class ZoneManager : SingleTon<ZoneManager>
             zoneID = id,
             centerPos = centerPos,
             biome = GetBiomeFromGround(centerPos),
-            baseSpawnChance = 0.3f
+            baseSpawnChance = 1f // TEST
         };
         zones.Add(id, zone);
     }

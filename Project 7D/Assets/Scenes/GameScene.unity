@@ -123,6 +123,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &22190562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 22190564}
+  - component: {fileID: 22190563}
+  m_Layer: 0
+  m_Name: GridManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &22190563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22190562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60c993840bcbef46bd67d4e5f2759c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 64
+  height: 64
+  cellSize: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!4 &22190564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22190562}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53.22641, y: 0.17148502, z: 36.51966}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &50489966
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9380b64ec263bb4caae737a8174a57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneSize: 32
+  zoneSize: 8
   zombiePrefab: {fileID: 3170052297267817369, guid: b10681bdf87f6924aaa9f6b530b84292,
     type: 3}
   groundLayer:
@@ -2219,6 +2269,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791734226}
   m_CullTransparentMesh: 1
+--- !u!1 &1801088535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801088537}
+  - component: {fileID: 1801088536}
+  m_Layer: 0
+  m_Name: DayNightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1801088536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801088535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd8c2ed93aa2e7498553955e6f2af4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentDay: 0
+--- !u!4 &1801088537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801088535}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53.22641, y: 0.17148502, z: 36.51966}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2129444817
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,6 +2456,8 @@ SceneRoots:
   - {fileID: 1520917626}
   - {fileID: 1681500465}
   - {fileID: 380136046}
+  - {fileID: 1801088537}
+  - {fileID: 22190564}
   - {fileID: 1395075481}
   - {fileID: 1580922470}
   - {fileID: 258207231}
