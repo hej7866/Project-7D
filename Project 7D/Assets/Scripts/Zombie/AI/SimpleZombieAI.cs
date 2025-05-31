@@ -11,9 +11,10 @@ public class SimpleZombieAI : MonoBehaviour
     ZombieState state = ZombieState.Idle;
     private Transform target;
 
+    public ZombieStepAI zombieStepAI;
+
 
     [Header("좀비 설정")]
-    public float zombieSpeed = 2f;
     public float zombieAttackRange = 0.3f;
 
     [Header("좀비 Animation")]
@@ -23,6 +24,7 @@ public class SimpleZombieAI : MonoBehaviour
     {
         target = GameObject.FindGameObjectWithTag("Player")?.transform;
         anim = GetComponent<Animator>();
+
     }
 
     void Update()
@@ -50,6 +52,7 @@ public class SimpleZombieAI : MonoBehaviour
         if (target != null && Vector3.Distance(transform.position, target.position) < 4f)
         {
             state = ZombieState.Chasing;
+            zombieStepAI.currentStep = StepState.Step;
         }
     }
 
@@ -62,12 +65,13 @@ public class SimpleZombieAI : MonoBehaviour
         if (Vector3.Distance(transform.position, target.position) <= zombieAttackRange)
         {
             state = ZombieState.Attacking;
+            zombieStepAI.currentStep = StepState.None;
+            zombieStepAI.stepTimer = 0f;
             return;
         }
 
         anim.SetBool("isChasing", true);
         anim.SetBool("isAttack", false);
-
         ZombieMovement();
 
     }
@@ -79,6 +83,7 @@ public class SimpleZombieAI : MonoBehaviour
         if (Vector3.Distance(transform.position, target.position) > zombieAttackRange)
         {
             state = ZombieState.Chasing;
+            zombieStepAI.currentStep = StepState.Step;
             return;
         }
 
@@ -90,8 +95,9 @@ public class SimpleZombieAI : MonoBehaviour
     void ZombieMovement()
     {
         Vector3 dir = (target.localPosition - transform.position).normalized;
-
-        transform.position += (Vector3)dir * zombieSpeed * Time.deltaTime;
         transform.rotation = Quaternion.LookRotation(dir);
+
+        //zombieStepAI.ZombieStep(target);
     }
+
 }
