@@ -3,19 +3,19 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     [Header("Map Size")]
-    public int width = 64;
-    public int height = 64;
-    public float cellSize = 1f;
+    public int Width = 64;
+    public int Height = 64;
+    public float CellSize = 1f;
 
     [Header("Tile Prefab")]
-    public GameObject tilePrefab;
+    public GameObject TilePrefab;
 
     [Header("Tree / Rock Prefabs")]
-    public GameObject[] treePrefabs;
-    public GameObject[] rockPrefabs;
+    public GameObject[] TreePrefabs;
+    public GameObject[] RockPrefabs;
 
-    [Range(0f, 1f)] public float treeSpawnChance = 0.003f;
-    [Range(0f, 1f)] public float rockSpawnChance = 0.005f;
+    [Range(0f, 1f)] public float TreeSpawnChance = 0.003f;
+    [Range(0f, 1f)] public float RockSpawnChance = 0.005f;
 
     void Start()
     {
@@ -24,31 +24,31 @@ public class MapManager : MonoBehaviour
 
     void GenerateMap()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int z = 0; z < height; z++)
+            for (int z = 0; z < Height; z++)
             {
-                Vector3 tilePos = new Vector3(x * cellSize, 0f, z * cellSize);
-                Instantiate(tilePrefab, tilePos, Quaternion.identity, transform);
+                Vector3 tilePos = new Vector3(x * CellSize, 0f, z * CellSize);
+                Instantiate(TilePrefab, tilePos, Quaternion.identity, transform);
 
                 float rand = Random.value;
 
-                if (rand < treeSpawnChance)
+                if (rand < TreeSpawnChance)
                 {
-                    int index = Random.Range(0, treePrefabs.Length);
-                    Instantiate(treePrefabs[index], tilePos, Quaternion.identity, transform);
+                    int index = Random.Range(0, TreePrefabs.Length);
+                    Instantiate(TreePrefabs[index], tilePos, Quaternion.identity, transform);
                 }
-                else if (rand < treeSpawnChance + rockSpawnChance)
+                else if (rand < TreeSpawnChance + RockSpawnChance)
                 {
                     Vector3 newTilePos = new Vector3(tilePos.x, tilePos.y + 0.2f, tilePos.z);
-                    int index = Random.Range(0, rockPrefabs.Length);
+                    int index = Random.Range(0, RockPrefabs.Length);
                     if (index != 2)
                     {
-                        Instantiate(rockPrefabs[index], newTilePos, Quaternion.identity, transform);
+                        Instantiate(RockPrefabs[index], newTilePos, Quaternion.identity, transform);
                     }
                     else if (index == 2)
                     { 
-                        Instantiate(rockPrefabs[index], tilePos, Quaternion.identity, transform);
+                        Instantiate(RockPrefabs[index], tilePos, Quaternion.identity, transform);
                     }
                 }
             }

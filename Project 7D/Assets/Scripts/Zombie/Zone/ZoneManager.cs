@@ -9,9 +9,9 @@ using System.Collections;
 public class ZoneManager : SingleTon<ZoneManager>
 {
     [Header("설정")]
-    public float zoneSize = 4f; // 한 청크의 크기
-    public GameObject zombiePrefab;
-    public LayerMask groundLayer;
+    public float ZoneSize = 4f; // 한 청크의 크기
+    public GameObject ZombiePrefab;
+    public LayerMask GroundLayer;
 
     private Dictionary<Vector2Int, WorldZone> zones = new();
     private Transform player;
@@ -40,8 +40,8 @@ public class ZoneManager : SingleTon<ZoneManager>
     Vector2Int GetPlayerZone()
     {
         Vector3 pos = player.position;
-        int x = Mathf.FloorToInt(pos.x / zoneSize);
-        int z = Mathf.FloorToInt(pos.z / zoneSize);
+        int x = Mathf.FloorToInt(pos.x / ZoneSize);
+        int z = Mathf.FloorToInt(pos.z / ZoneSize);
         return new Vector2Int(x, z);
     }
 
@@ -52,7 +52,7 @@ public class ZoneManager : SingleTon<ZoneManager>
 
     void CreateZone(Vector2Int id)
     {
-        Vector3 centerPos = new Vector3(id.x * zoneSize + zoneSize / 2, 0, id.y * zoneSize + zoneSize / 2);
+        Vector3 centerPos = new Vector3(id.x * ZoneSize + ZoneSize / 2, 0, id.y * ZoneSize + ZoneSize / 2);
         WorldZone zone = new WorldZone
         {
             zoneID = id,
@@ -71,10 +71,10 @@ public class ZoneManager : SingleTon<ZoneManager>
             int count = Random.Range(1, 4);
             for (int i = 0; i < count; i++)
             {
-                Vector3 pos = zone.centerPos + Random.insideUnitSphere * (zoneSize / 2);
+                Vector3 pos = zone.centerPos + Random.insideUnitSphere * (ZoneSize / 2);
                 pos.y = 0;
 
-                GameObject zombie = Instantiate(zombiePrefab, pos, Quaternion.identity);
+                GameObject zombie = Instantiate(ZombiePrefab, pos, Quaternion.identity);
                 zone.zombiesInZone.Add(zombie);
             }
         }
@@ -93,7 +93,7 @@ public class ZoneManager : SingleTon<ZoneManager>
 
     float GetDayMultiplier() // 날짜 보정계수
     {
-        int day = DayNightManager.Instance.CurrentDay;
+        int day = TimeManager.Instance.CurrentDay;
         return 1f + (day - 1) * 0.1f;
     }
 
@@ -128,7 +128,7 @@ public class ZoneManager : SingleTon<ZoneManager>
         foreach (var zone in zones.Values)
         {
             Vector3 center = zone.centerPos;
-            Vector3 size = new Vector3(zoneSize, 0.1f, zoneSize);
+            Vector3 size = new Vector3(ZoneSize, 0.1f, ZoneSize);
 
             Gizmos.color = new Color(0f, 1f, 0f, 0.3f);
             Gizmos.DrawCube(center, size);

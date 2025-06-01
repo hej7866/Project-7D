@@ -3,20 +3,20 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     [Header("설치할 프리팹")]
-    public GameObject buildingPrefab;
+    public GameObject BuildingPrefab;
 
     [Header("프리뷰 (고스트)")]
-    public GameObject previewPrefab;
-    private GameObject previewInstance;
-    private Renderer previewRenderer;
+    public GameObject PreviewPrefab;
+    private GameObject PreviewInstance;
+    private Renderer PreviewRenderer;
 
     [Header("설치 관련 설정")]
-    public LayerMask groundLayer;
-    public LayerMask placementBlockedLayers;
-    public float gridSize = 1f;
-    public Vector3 boxSize = new Vector3(1f, 1f, 1f);
+    public LayerMask GroundLayer;
+    public LayerMask PlacementBlockedLayers;
+    public float GridSize = 1f;
+    public Vector3 BoxSize = new Vector3(1f, 1f, 1f);
 
-    private bool isBuildMode = false;
+    private bool _isBuildMode = false;
 
     void Update()
     {
@@ -26,14 +26,14 @@ public class BuildManager : MonoBehaviour
             ToggleBuildMode();
         }
 
-        if (!isBuildMode || previewInstance == null) return;
+        if (!_isBuildMode || PreviewInstance == null) return;
 
         // 마우스 위치 기반 스냅
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, GroundLayer))
         {
             Vector3 snappedPos = GetSnappedPosition(hit.point);
-            previewInstance.transform.position = snappedPos;
+            PreviewInstance.transform.position = snappedPos;
 
             bool canBuild = CanPlaceBuilding(snappedPos);
             SetPreviewColor(canBuild ? Color.green : Color.red);
@@ -41,49 +41,49 @@ public class BuildManager : MonoBehaviour
             // 설치 완료 시
             if (Input.GetMouseButtonDown(0) && canBuild)
             {
-                Instantiate(buildingPrefab, snappedPos, Quaternion.identity);
-                Destroy(previewInstance);
-                previewInstance = null;
-                isBuildMode = false;
+                Instantiate(BuildingPrefab, snappedPos, Quaternion.identity);
+                Destroy(PreviewInstance);
+                PreviewInstance = null;
+                _isBuildMode = false;
             }
         }
     }
 
     void ToggleBuildMode()
     {
-        if (isBuildMode)
+        if (_isBuildMode)
         {
             // 모드 종료
-            if (previewInstance != null) Destroy(previewInstance);
-            previewInstance = null;
-            isBuildMode = false;
+            if (PreviewInstance != null) Destroy(PreviewInstance);
+            PreviewInstance = null;
+            _isBuildMode = false;
         }
         else
         {
             // 모드 시작
-            previewInstance = Instantiate(previewPrefab);
-            previewRenderer = previewInstance.GetComponentInChildren<Renderer>();
-            isBuildMode = true;
+            PreviewInstance = Instantiate(PreviewPrefab);
+            PreviewRenderer = PreviewInstance.GetComponentInChildren<Renderer>();
+            _isBuildMode = true;
         }
     }
 
     Vector3 GetSnappedPosition(Vector3 rawPos)
     {
-        float x = Mathf.Round(rawPos.x / gridSize) * gridSize;
-        float z = Mathf.Round(rawPos.z / gridSize) * gridSize;
+        float x = Mathf.Round(rawPos.x / GridSize) * GridSize;
+        float z = Mathf.Round(rawPos.z / GridSize) * GridSize;
         return new Vector3(x, 0f, z);
     }
 
     bool CanPlaceBuilding(Vector3 position)
     {
-        return !Physics.CheckBox(position, boxSize / 2f, Quaternion.identity, placementBlockedLayers);
+        return !Physics.CheckBox(position, BoxSize / 2f, Quaternion.identity, PlacementBlockedLayers);
     }
 
     void SetPreviewColor(Color color)
     {
-        if (previewRenderer != null)
+        if (PreviewRenderer != null)
         {
-            Material mat = previewRenderer.material;
+            Material mat = PreviewRenderer.material;
             color.a = 0.5f;
             mat.color = color;
         }

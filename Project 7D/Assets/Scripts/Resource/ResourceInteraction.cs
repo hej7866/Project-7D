@@ -6,7 +6,7 @@ public class ResourceInteraction : MonoBehaviour
     private ResourceNode targetNode;
 
     private float _gatherTimer = 0f;
-    private bool isHolding = false;
+    private bool _isHolding = false;
 
     void Start()
     {
@@ -19,17 +19,17 @@ public class ResourceInteraction : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                if (!isHolding)
+                if (!_isHolding)
                 {
-                    isHolding = true;
+                    _isHolding = true;
                     animator.SetBool("isChopping", true);
                     UIManager.Instance.ShowGatherUI();
                 }
 
                 _gatherTimer += Time.deltaTime;
-                UIManager.Instance.SetGatherProgress(_gatherTimer / targetNode.data.gatherTime);
+                UIManager.Instance.SetGatherProgress(_gatherTimer / targetNode.Data.gatherTime);
 
-                if (_gatherTimer >= targetNode.data.gatherTime)
+                if (_gatherTimer >= targetNode.Data.gatherTime)
                 {
                     OnGatherComplete();
                 }
@@ -49,14 +49,14 @@ public class ResourceInteraction : MonoBehaviour
     {
         animator.SetBool("isChopping", false);
         Destroy(targetNode.gameObject);
-        PlayerInventory.Instance.AddResource(targetNode.data.icon, targetNode.ResourceType, targetNode.data.category, targetNode.data.amount);
+        PlayerInventory.Instance.AddResource(targetNode.Data.icon, targetNode.ResourceType, targetNode.Data.category, targetNode.Data.amount);
         targetNode = null;
         ResetGathering();
     }
 
     void ResetGathering()
     {
-        isHolding = false;
+        _isHolding = false;
         animator.SetBool("isChopping", false);
         _gatherTimer = 0f;
         UIManager.Instance.HideGatherUI();

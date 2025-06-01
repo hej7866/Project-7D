@@ -20,10 +20,10 @@ public class ZombieAI : MonoBehaviour
 
     private List<Vector3> smoothPath;     // 현재 사용 중인 경로
     private List<Vector3> pendingPath;    // 새로 계산된 경로 (대기 상태)
-    private int smoothIndex = 0;
+    private int _smoothIndex = 0;
 
     private Transform target;
-    private float lastPathTime = 0f;
+    private float _lastPathTime = 0f;
 
     void Start()
     {
@@ -77,7 +77,7 @@ public class ZombieAI : MonoBehaviour
         }
 
         // 1초마다 경로 갱신
-        if (Time.time - lastPathTime > repathInterval)
+        if (Time.time - _lastPathTime > repathInterval)
         {
             RequestNewPath();
         }
@@ -86,16 +86,16 @@ public class ZombieAI : MonoBehaviour
         if (pendingPath != null && pendingPath.Count >= 2)
         {
             smoothPath = pendingPath;
-            smoothIndex = GetClosestIndexOnPath(smoothPath, transform.position);
+            _smoothIndex = GetClosestIndexOnPath(smoothPath, transform.position);
             pendingPath = null;
         }
 
         // 경로 없으면 추적 불가
-        if (smoothPath == null || smoothIndex >= smoothPath.Count)
+        if (smoothPath == null || _smoothIndex >= smoothPath.Count)
             return;
 
         // 이동 처리
-        Vector3 targetPos = smoothPath[smoothIndex];
+        Vector3 targetPos = smoothPath[_smoothIndex];
         Vector3 dir = (targetPos - transform.position);
         Vector3 flatDir = new Vector3(dir.x, 0f, dir.z);
 
@@ -112,7 +112,7 @@ public class ZombieAI : MonoBehaviour
 
         // 다음 포인트로
         if (Vector3.Distance(transform.position, targetPos) < 0.2f)
-            smoothIndex++;
+            _smoothIndex++;
     }
 
     void AttackUpdate()
@@ -142,7 +142,7 @@ public class ZombieAI : MonoBehaviour
             worldPath.Add(grid.GridToWorld(node.position));
 
         pendingPath = CatmullRomUtility.GetSmoothPath(worldPath, 10);
-        lastPathTime = Time.time;
+        _lastPathTime = Time.time;
     }
 
     // 현재 위치와 가장 가까운 경로 인덱스 찾기

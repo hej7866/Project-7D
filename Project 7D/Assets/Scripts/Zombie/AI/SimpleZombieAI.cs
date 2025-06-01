@@ -15,10 +15,12 @@ public class SimpleZombieAI : MonoBehaviour
 
 
     [Header("좀비 설정")]
-    public float zombieAttackRange = 0.3f;
+    public float ZombieAttackRange = 0.3f;
+    public float ZombieAttackPower = 2f;
+    public float ZombieChasingRange = 8f;
 
     [Header("좀비 Animation")]
-    [SerializeField] Animator anim;
+    [SerializeField] private Animator anim;
 
     void Start()
     {
@@ -62,9 +64,18 @@ public class SimpleZombieAI : MonoBehaviour
         if (target == null) return;
 
         // 공격 범위 안으로 접근
-        if (Vector3.Distance(transform.position, target.position) <= zombieAttackRange)
+        if (Vector3.Distance(transform.position, target.position) <= ZombieAttackRange)
         {
             state = ZombieState.Attacking;
+            zombieStepAI.currentStep = StepState.None;
+            zombieStepAI.stepTimer = 0f;
+            return;
+        }
+
+        // 캐싱 범위 밖으로 나가면
+        if (Vector3.Distance(transform.position, target.position) > ZombieChasingRange)
+        {
+            state = ZombieState.Idle;
             zombieStepAI.currentStep = StepState.None;
             zombieStepAI.stepTimer = 0f;
             return;
@@ -79,8 +90,8 @@ public class SimpleZombieAI : MonoBehaviour
     void AttackUpdate()
     {
 
-        // 공격 범위 안으로 접근
-        if (Vector3.Distance(transform.position, target.position) > zombieAttackRange)
+        // 공격 범위 밖으로 나가면
+        if (Vector3.Distance(transform.position, target.position) > ZombieAttackRange)
         {
             state = ZombieState.Chasing;
             zombieStepAI.currentStep = StepState.Step;
@@ -97,7 +108,18 @@ public class SimpleZombieAI : MonoBehaviour
         Vector3 dir = (target.localPosition - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(dir);
 
-        //zombieStepAI.ZombieStep(target);
+        zombieStepAI.ZombieStep(target);
     }
+
+    public void ZombieAttack()
+    {
+        if (Vector3.Distance(transform.position, target.position) > ZombieAttackRange) // 만약 어택을했을때 (좀비가 손을 휘둘렀을때 시점에 이벤트 걸어놓음) 플레이어가 공격범위 밖이면 리턴
+        {
+            return;
+        }
+
+        PlayerController.Instance.TakeDamage(ZombieAttackPower);
+    }
+
 
 }

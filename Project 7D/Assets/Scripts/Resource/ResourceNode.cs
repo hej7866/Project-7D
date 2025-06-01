@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    public ResourceData data;
-    public ResourceType ResourceType => data.resourceType;
+    public ResourceData Data;
+    public ResourceType ResourceType => Data.resourceType;
 
 }

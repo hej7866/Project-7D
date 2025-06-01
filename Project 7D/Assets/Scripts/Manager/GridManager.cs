@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
-    public int width = 1024;
-    public int height = 1024;
-    public float cellSize = 1/16f;
-    public LayerMask obstacleMask;
+    public int Width = 1024;
+    public int Height = 1024;
+    public float CellSize = 1/16f;
+    public LayerMask ObstacleMask;
 
     private Node[,] grid;
 
@@ -17,14 +17,14 @@ public class GridManager : MonoBehaviour
 
     public void InitializeGrid()
     {
-        grid = new Node[width, height];
+        grid = new Node[Width, Height];
 
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < Height; y++)
             {
-                Vector3 worldPos = new Vector3(x * cellSize, 0, y * cellSize);
-                bool walkable = !Physics.CheckSphere(worldPos, 0.4f, obstacleMask);
+                Vector3 worldPos = new Vector3(x * CellSize, 0, y * CellSize);
+                bool walkable = !Physics.CheckSphere(worldPos, 0.4f, ObstacleMask);
                 grid[x, y] = new Node(new Vector2Int(x, y), walkable);
             }
         }
@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour
 
     public Node GetNode(Vector2Int pos)
     {
-        if (pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height)
+        if (pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height)
             return grid[pos.x, pos.y];
         else
             return null;
@@ -40,14 +40,14 @@ public class GridManager : MonoBehaviour
 
     public Vector2Int WorldToGrid(Vector3 worldPos)
     {
-        int x = Mathf.RoundToInt(worldPos.x / cellSize);
-        int y = Mathf.RoundToInt(worldPos.z / cellSize);
+        int x = Mathf.RoundToInt(worldPos.x / CellSize);
+        int y = Mathf.RoundToInt(worldPos.z / CellSize);
         return new Vector2Int(x, y);
     }
 
     public Vector3 GridToWorld(Vector2Int gridPos)
     {
-        return new Vector3(gridPos.x * cellSize, 0, gridPos.y * cellSize);
+        return new Vector3(gridPos.x * CellSize, 0, gridPos.y * CellSize);
     }
 
     public List<Node> GetNeighbors(Node node)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UIManager : SingleTon<UIManager>
 {
@@ -15,11 +16,19 @@ public class UIManager : SingleTon<UIManager>
     [SerializeField] private Transform inventoryPanel;
     [SerializeField] private GameObject inventorySlotPrefab;
 
+    [Header("플레이어 컨디션 UI")]
+    [SerializeField] private Image healthGatherBar;
+    [SerializeField] private Image staminaGatherBar;
+    [SerializeField] private Image hungerGatherBar;
+    [SerializeField] private Image thirstGatherBar;
+
     private Dictionary<ResourceType, InventorySlot> slotDict = new Dictionary<ResourceType, InventorySlot>();
+
 
     void Start()
     {
         PlayerInventory.Instance.OnResourceChanged += UpdateInventoryUI;
+        PlayerController.Instance.OnPlayerHealthChanged += PlayerConditonGatherBarUI;
     }
 
     private bool isOpen = false;
@@ -61,6 +70,11 @@ public class UIManager : SingleTon<UIManager>
             newSlotPrefab.SetData(icon, type.ToString(), category.ToString(), amount);
             slotDict.Add(type, newSlotPrefab); // 새로 등록
         }
+    }
+
+    public void PlayerConditonGatherBarUI(float playerHealth)
+    {
+        healthGatherBar.fillAmount = playerHealth / PlayerController.Instance.maxHealth;
     }
 }
 
