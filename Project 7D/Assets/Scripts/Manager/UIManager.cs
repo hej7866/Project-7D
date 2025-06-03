@@ -22,6 +22,10 @@ public class UIManager : SingleTon<UIManager>
     [SerializeField] private Image hungerGatherBar;
     [SerializeField] private Image thirstGatherBar;
 
+    [Header("시간 / 날짜 UI")]
+    [SerializeField] private Text dayText;
+    [SerializeField] private Text timeText;
+
     private Dictionary<ResourceType, InventorySlot> slotDict = new Dictionary<ResourceType, InventorySlot>();
 
 
@@ -29,6 +33,7 @@ public class UIManager : SingleTon<UIManager>
     {
         PlayerInventory.Instance.OnResourceChanged += UpdateInventoryUI;
         PlayerController.Instance.OnPlayerHealthChanged += PlayerConditonGatherBarUI;
+        TimeManager.Instance.OnNewDay += UpdateDayDisplay;
     }
 
     private bool isOpen = false;
@@ -39,6 +44,24 @@ public class UIManager : SingleTon<UIManager>
             isOpen = !isOpen;
             inventoryUI.SetActive(isOpen);
         }
+
+        UpdateTimeDisplay();
+    }
+
+    public void UpdateTimeDisplay()
+    {
+        float dayProgress = TimeManager.Instance.DayPercent;
+        float totalMinutes = 24f * 60f * dayProgress;
+
+        int hour = Mathf.FloorToInt(totalMinutes / 60f);
+        int minute = Mathf.FloorToInt(totalMinutes % 60f);
+
+        timeText.text = $"{hour:00}:{minute:00}";
+    }
+
+    public void UpdateDayDisplay(int currentDay)
+    {
+        dayText.text = $"{currentDay} 일차";
     }
 
     public void ShowGatherUI()

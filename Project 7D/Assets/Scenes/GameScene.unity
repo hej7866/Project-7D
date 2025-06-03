@@ -874,7 +874,7 @@ GameObject:
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,8 +1645,8 @@ MonoBehaviour:
   - {fileID: 100000, guid: 3da8c6e2c0ecd1d4492b3612b97222db, type: 3}
   - {fileID: 100000, guid: e349b6a927183154d9bf449b09b8e413, type: 3}
   - {fileID: 100000, guid: 7ca168569b7f1c5479b28f521d0a1a32, type: 3}
-  TreeSpawnChance: 0.003
-  RockSpawnChance: 0.005
+  TreeSpawnChance: 0.006
+  RockSpawnChance: 0.01
 --- !u!4 &1123053415
 Transform:
   m_ObjectHideFlags: 0
@@ -2083,6 +2083,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.021240592, y: 0.86693686, z: 0.11219746}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1433085734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1433085736}
+  - component: {fileID: 1433085735}
+  m_Layer: 0
+  m_Name: SunManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1433085735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433085734}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f3fc7895920fa4a818b27f7413e5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sun: {fileID: 410087040}
+  RotationSpeed: 0.6
+--- !u!4 &1433085736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433085734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50, y: 1030, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2937,7 +2983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd8c2ed93aa2e7498553955e6f2af4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsPerDay: 600
+  secondsPerDay: 10
   CurrentDay: 0
   currentTime: 0
 --- !u!4 &1801088537
@@ -2990,11 +3036,11 @@ RectTransform:
   - {fileID: 306834607}
   m_Father: {fileID: 1580922470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 190}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1854423166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3313,6 +3359,7 @@ SceneRoots:
   - {fileID: 380136046}
   - {fileID: 1801088537}
   - {fileID: 22190564}
+  - {fileID: 1433085736}
   - {fileID: 1395075481}
   - {fileID: 1580922470}
   - {fileID: 258207231}
