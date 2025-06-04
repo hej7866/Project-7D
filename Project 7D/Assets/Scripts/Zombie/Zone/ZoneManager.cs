@@ -77,8 +77,7 @@ public class ZoneManager : SingleTon<ZoneManager>
             for (int i = 0; i < count; i++)
             {
                 Vector3 pos = zone.centerPos + Random.insideUnitSphere * (ZoneSize / 2);
-                pos.y = 0;
-
+                pos.y = Terrain.activeTerrain.SampleHeight(pos);
                 GameObject zombie = Instantiate(ZombiePrefab, pos, Quaternion.identity);
                 zone.zombiesInZone.Add(zombie);
             }

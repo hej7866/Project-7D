@@ -60,14 +60,34 @@ public class TerrainGenerator : MonoBehaviour
                 else if (Mathf.Abs(dz) > Mathf.Abs(dx))
                 {
                     // 남북
-                    if (dz > 0) height = Mathf.PerlinNoise((x + offsetX) / snowScale, (z + offsetZ) / snowScale) * 0.2f; // 북쪽 = 설산
-                    else        height = Mathf.PerlinNoise((x + offsetX) / desertScale, (z + offsetZ) / desertScale) * 0.2f; // 남쪽 = 사막
+                    if (dz > 0) //북쪽 = 설산
+                    {
+                        float blend = Mathf.InverseLerp(Center + BaseSize / 2f + 8f, Center + BaseSize / 2f + 64f, z);
+                        float noise = Mathf.PerlinNoise((x + offsetX) / snowScale, (z + offsetZ) / snowScale);
+                        height = Mathf.Lerp(0f, noise * 0.2f, blend); // 입구에서 0, 멀어질수록 점점 높아짐
+                    }
+                    else
+                    {
+                        float blend = Mathf.InverseLerp(Center - BaseSize / 2f - 12f, Center - BaseSize / 2f - 64f, z);
+                        float noise = Mathf.PerlinNoise((x + offsetX) / desertScale, (z + offsetZ) / desertScale);
+                        height = Mathf.Lerp(0f, noise * 0.2f, blend);
+                    }
                 }
                 else
                 {
                     // 동서
-                    if (dx > 0) height = Mathf.PerlinNoise((x + offsetX) / cityScale, (z + offsetZ) / cityScale) * 0.2f; // 동쪽 = 도시
-                    else        height = Mathf.PerlinNoise((x + offsetX) / forestScale, (z + offsetZ) / forestScale) * 0.2f; // 서쪽 = 숲
+                      if (dx > 0) // 동쪽 = 도시
+                    {
+                        float blend = Mathf.InverseLerp(Center + BaseSize / 2f + 16f, Center + BaseSize / 2f + 64f, x);
+                        float noise = Mathf.PerlinNoise((x + offsetX) / cityScale, (z + offsetZ) / cityScale);
+                        height = Mathf.Lerp(0f, noise * 0.2f, blend);
+                    }
+                    else // 서쪽 = 숲
+                    {
+                        float blend = Mathf.InverseLerp(Center - BaseSize / 2f - 8f, Center - BaseSize / 2f - 64f, x);
+                        float noise = Mathf.PerlinNoise((x + offsetX) / forestScale, (z + offsetZ) / forestScale);
+                        height = Mathf.Lerp(0f, noise * 0.2f, blend);
+                    }
                 }
 
                 heights[z, x] = height;
