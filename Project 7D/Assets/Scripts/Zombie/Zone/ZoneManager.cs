@@ -8,6 +8,10 @@ using System.Collections;
 
 public class ZoneManager : SingleTon<ZoneManager>
 {
+    private const int WorldSize = 2048;
+    private const int BaseSize = 64;
+    private const int WorldCenter = WorldSize / 2;
+
     [Header("설정")]
     public float ZoneSize = 4f; // 한 청크의 크기
     public GameObject ZombiePrefab;
@@ -52,12 +56,13 @@ public class ZoneManager : SingleTon<ZoneManager>
 
     void CreateZone(Vector2Int id)
     {
-        Vector3 centerPos = new Vector3(id.x * ZoneSize + ZoneSize / 2, 0, id.y * ZoneSize + ZoneSize / 2);
+        Vector3 centerPos = new Vector3((id.x + 0.5f) * ZoneSize, 0f, (id.y + 0.5f) * ZoneSize);
+
         WorldZone zone = new WorldZone
         {
             zoneID = id,
             centerPos = centerPos,
-            biome = GetBiomeFromGround(centerPos),
+            biome = GetBiome(centerPos),
             baseSpawnChance = 1f // TEST
         };
         zones.Add(id, zone);
@@ -84,7 +89,7 @@ public class ZoneManager : SingleTon<ZoneManager>
     {
         return biome switch
         {
-            BiomeType.Plains => 0.5f,
+            BiomeType.City => 0.5f,
             BiomeType.Desert => 1.5f,
             BiomeType.Snow => 1.8f,
             _ => 1f
@@ -98,25 +103,24 @@ public class ZoneManager : SingleTon<ZoneManager>
     }
 
 
-    BiomeType GetBiomeFromGround(Vector3 position)
+   BiomeType GetBiome(int x, int z)
     {
-        Ray ray = new Ray(position + Vector3.up * 1f, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, 2f))
-        {
-            string tag = hit.collider.tag;
+        int dx = x - WorldCenter;
+        int dz = z - WorldCenter;
 
-            return tag switch
-            {
-                "PlainTile" => BiomeType.Plains,
-                "SnowTile" => BiomeType.Snow,
-                "DesertTile" => BiomeType.Desert,
-                _ => BiomeType.Plains // 기본값
-            };
-        }
+        if (Mathf.Abs(dx) <= BaseSize / 2 && Mathf.Abs(dz) <= BaseSize / 2)
+            return BiomeType.Base;
 
-        return BiomeType.Plains; // 땅 감지 안 됐을 때
+        if (Mathf.Abs(dz) > Mathf.Abs(dx))
+            return dz > 0 ? BiomeType.Snow : BiomeType.Desert;
+        else
+            return dx > 0 ? BiomeType.City : BiomeType.Forest;
     }
-    
+
+    BiomeType GetBiome(Vector3 worldPos)
+    {
+        return GetBiome(Mathf.FloorToInt(worldPos.x), Mathf.FloorToInt(worldPos.z));
+    } 
 
 
 
@@ -128,7 +132,7 @@ public class ZoneManager : SingleTon<ZoneManager>
         foreach (var zone in zones.Values)
         {
             Vector3 center = zone.centerPos;
-            Vector3 size = new Vector3(ZoneSize, 0.1f, ZoneSize);
+            Vector3 size = new Vector3(ZoneSize, 100f, ZoneSize);
 
             Gizmos.color = new Color(0f, 1f, 0f, 0.3f);
             Gizmos.DrawCube(center, size);

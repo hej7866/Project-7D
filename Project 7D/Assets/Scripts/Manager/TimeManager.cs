@@ -27,7 +27,7 @@ public class TimeManager : SingleTon<TimeManager>
         {
             currentTime = 0f;
             CurrentDay++;
-            OnNewDay?.Invoke(CurrentDay);
+            OnNewDay.Invoke(CurrentDay);
         }
 
         UpdateTimePhase();

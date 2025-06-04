@@ -1,6 +1,1 @@
-public enum BiomeType
-{
-    Plains,
-    Desert,
-    Snow
-}
+public enum BiomeType { Base, Snow, Desert, City, Forest }
