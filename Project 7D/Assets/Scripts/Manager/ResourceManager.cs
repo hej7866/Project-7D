@@ -1,56 +1,93 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ResourceManager : MonoBehaviour
 {
-    [Header("Map Size")]
-    public int Width = 64;
-    public int Height = 64;
-    public float CellSize = 1f;
+    [System.Serializable]
+    public class ResourceType
+    {
+        public string tag; // 풀 태그
+        public int spawnCount;
+        public BiomeType allowedBiome;
+    }
 
+    public List<ResourceType> resources;
 
-    [Header("Tree / Rock Prefabs")]
-    public GameObject[] TreePrefabs;
-    public GameObject[] RockPrefabs;
+    [Header("배치 범위")]
+    public Vector3 terrainMin = new Vector3(0, 0, 0);
+    public Vector3 terrainMax = new Vector3(2048, 0, 2048);
+    public Vector3 baseCenter = new Vector3(1024, 0, 1024);
+    public float baseSize = 64f;
 
-    [Range(0f, 1f)] public float TreeSpawnChance = 0.003f;
-    [Range(0f, 1f)] public float RockSpawnChance = 0.005f;
+    public float minSpacing = 4f;
+    private List<Vector3> placedPositions = new();
 
-    // Start is called before the first frame update
     void Start()
     {
-        GenerateResource();
-    }
-
-    void GenerateResource()
-    {
-        for (int x = 0; x < Width; x++)
+        foreach (var resource in resources)
         {
-            for (int z = 0; z < Height; z++)
-            {
-                Vector3 resourcePos = new Vector3(x * CellSize, 0f, z * CellSize);
-                float rand = Random.value;
-
-                if (rand < TreeSpawnChance)
-                {
-                    int index = Random.Range(0, TreePrefabs.Length);
-                    Instantiate(TreePrefabs[index], resourcePos, Quaternion.identity, transform);
-                }
-                else if (rand < TreeSpawnChance + RockSpawnChance)
-                {
-                    Vector3 newTilePos = new Vector3(resourcePos.x, resourcePos.y + 0.2f, resourcePos.z);
-                    int index = Random.Range(0, RockPrefabs.Length);
-                    if (index != 2)
-                    {
-                        Instantiate(RockPrefabs[index], newTilePos, Quaternion.identity, transform);
-                    }
-                    else if (index == 2)
-                    { 
-                        Instantiate(RockPrefabs[index], resourcePos, Quaternion.identity, transform);
-                    }
-                }
-            }
+            SpawnResources(resource);
         }
     }
+
+    void SpawnResources(ResourceType resourceType)
+    {
+        int placed = 0;
+        int attempts = 0;
+
+        while (placed < resourceType.spawnCount && attempts < resourceType.spawnCount * 50)
+        {
+            float x = Random.Range(terrainMin.x, terrainMax.x);
+            float z = Random.Range(terrainMin.z, terrainMax.z);
+
+            if (IsInsideBase(x, z)) { attempts++; continue; }
+
+            Vector3 pos = new Vector3(x, 0f, z);
+            pos.y = Terrain.activeTerrain.SampleHeight(pos);
+
+            BiomeType biome = GetBiomeType(pos);
+
+            if (biome != resourceType.allowedBiome || !IsPositionValid(pos))
+            {
+                attempts++;
+                continue;
+            }
+
+            ObjectPool.Instance.SpawnFromPool(resourceType.tag, pos, Quaternion.identity);
+            placedPositions.Add(pos);
+            placed++;
+            attempts++;
+        }
+    }
+
+    bool IsInsideBase(float x, float z)
+    {
+        return Mathf.Abs(x - baseCenter.x) < baseSize / 2f &&
+               Mathf.Abs(z - baseCenter.y) < baseSize / 2f;
+    }
+
+    bool IsPositionValid(Vector3 pos)
+    {
+        foreach (var p in placedPositions)
+        {
+            if (Vector3.Distance(pos, p) < minSpacing)
+                return false;
+        }
+        return true;
+    }
+
+    BiomeType GetBiomeType(Vector3 pos)
+    {
+        if (pos.z > 1056f)
+            return BiomeType.Snow;    // 북쪽 설산
+        if (pos.z < 992f)
+            return BiomeType.Desert;  // 남쪽 사막
+        if (pos.x > 1056f)
+            return BiomeType.City;    // 동쪽 도시
+        if (pos.x < 992f)
+            return BiomeType.Forest;  // 서쪽 숲/강
+
+        return BiomeType.Base;      // 중앙 (기지 포함)
+    }
+
 }
