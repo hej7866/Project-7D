@@ -35,7 +35,7 @@ public class ResourceManager : MonoBehaviour
         int placed = 0;
         int attempts = 0;
 
-        while (placed < resourceType.spawnCount && attempts < resourceType.spawnCount * 50)
+        while (placed < resourceType.spawnCount && attempts < resourceType.spawnCount * 100)
         {
             float x = Random.Range(terrainMin.x, terrainMax.x);
             float z = Random.Range(terrainMin.z, terrainMax.z);
@@ -63,7 +63,7 @@ public class ResourceManager : MonoBehaviour
     bool IsInsideBase(float x, float z)
     {
         return Mathf.Abs(x - baseCenter.x) < baseSize / 2f &&
-               Mathf.Abs(z - baseCenter.y) < baseSize / 2f;
+               Mathf.Abs(z - baseCenter.z) < baseSize / 2f;
     }
 
     bool IsPositionValid(Vector3 pos)
@@ -78,16 +78,36 @@ public class ResourceManager : MonoBehaviour
 
     BiomeType GetBiomeType(Vector3 pos)
     {
-        if (pos.z > 1056f)
-            return BiomeType.Snow;    // 북쪽 설산
-        if (pos.z < 992f)
-            return BiomeType.Desert;  // 남쪽 사막
-        if (pos.x > 1056f)
-            return BiomeType.City;    // 동쪽 도시
-        if (pos.x < 992f)
-            return BiomeType.Forest;  // 서쪽 숲/강
+        const float center = 1024f;   // 월드 중앙
+        const float baseHalf = 32f;   // 기지 반쪽 (64×64)
 
-        return BiomeType.Base;      // 중앙 (기지 포함)
+        float dx = pos.x - center;    // 중심에서의 오프셋
+        float dz = pos.z - center;
+        float absDx = Mathf.Abs(dx);
+        float absDz = Mathf.Abs(dz);
+
+        // 0. 중앙 기지 64 × 64
+        if (absDx <= baseHalf && absDz <= baseHalf)
+            return BiomeType.Base;
+
+        // 1. 북쪽 설산 : z 쪽이 가장 크고, 북/남 대각선 위
+        if (dz >= absDx)              // dz >= |dx|
+            return BiomeType.Snow;
+
+        // 2. 남쪽 사막
+        if (dz <= -absDx)             // dz <= -|dx|
+            return BiomeType.Desert;
+
+        // 3. 동쪽 도시
+        if (dx >= absDz)              // dx >= |dz|
+            return BiomeType.City;
+
+        // 4. 서쪽 숲/강
+        if (dx <= -absDz)             // dx <= -|dz|
+            return BiomeType.Forest;
+
+        // 대각선 딱 선 위에 있을 때 – 취향대로
+        return BiomeType.Base;
     }
 
 }

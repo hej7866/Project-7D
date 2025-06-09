@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9380b64ec263bb4caae737a8174a57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZoneSize: 4
+  ZoneSize: 16
   ZombiePrefab: {fileID: 3170052297267817369, guid: b10681bdf87f6924aaa9f6b530b84292,
     type: 3}
   GroundLayer:
@@ -2103,7 +2103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &611091584
 Transform:
   m_ObjectHideFlags: 0
@@ -2131,21 +2131,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b0af79fe7f27a4c90c381e9737f702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 64
-  Height: 64
-  CellSize: 1
-  TreePrefabs:
-  - {fileID: 299712424454941021, guid: c121c30a0145100499e606c07bbcbda9, type: 3}
-  - {fileID: 5530652132047498927, guid: a5d185c399cc2354aadac2506dd0890c, type: 3}
-  - {fileID: 5400752399725384465, guid: dce7f66f565e811429d99b6f44e20788, type: 3}
-  RockPrefabs:
-  - {fileID: 100000, guid: 79bce83937e43d042843a359e671ca99, type: 3}
-  - {fileID: 100000, guid: e2abe2db222fa9c49a111c088001ebcf, type: 3}
-  - {fileID: 100000, guid: 3da8c6e2c0ecd1d4492b3612b97222db, type: 3}
-  - {fileID: 100000, guid: e349b6a927183154d9bf449b09b8e413, type: 3}
-  - {fileID: 100000, guid: 7ca168569b7f1c5479b28f521d0a1a32, type: 3}
-  TreeSpawnChance: 0.003
-  RockSpawnChance: 0.005
+  resources:
+  - tag: Tree1
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Tree2
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Tree3
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Rock1
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Rock2
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Rock3
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Rock4
+    spawnCount: 100
+    allowedBiome: 4
+  - tag: Rock5
+    spawnCount: 100
+    allowedBiome: 4
+  terrainMin: {x: 0, y: 0, z: 0}
+  terrainMax: {x: 2048, y: 2048, z: 2048}
+  baseCenter: {x: 1024, y: 1024, z: 1024}
+  baseSize: 64
+  minSpacing: 4
 --- !u!1 &654756533
 GameObject:
   m_ObjectHideFlags: 0
@@ -5161,6 +5176,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 93706017}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!1 &1931305806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1931305808}
+  - component: {fileID: 1931305807}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1931305807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931305806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ff5bfd61cb01843b117c2e0e31ef3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ResourcePools:
+  - tag: Tree1
+    prefab: {fileID: 299712424454941021, guid: c121c30a0145100499e606c07bbcbda9, type: 3}
+    size: 100
+  - tag: Tree2
+    prefab: {fileID: 5530652132047498927, guid: a5d185c399cc2354aadac2506dd0890c,
+      type: 3}
+    size: 100
+  - tag: Tree3
+    prefab: {fileID: 5400752399725384465, guid: dce7f66f565e811429d99b6f44e20788,
+      type: 3}
+    size: 100
+  - tag: Rock1
+    prefab: {fileID: 100000, guid: 79bce83937e43d042843a359e671ca99, type: 3}
+    size: 50
+  - tag: Rock2
+    prefab: {fileID: 100000, guid: e2abe2db222fa9c49a111c088001ebcf, type: 3}
+    size: 50
+  - tag: Rock3
+    prefab: {fileID: 100000, guid: 3da8c6e2c0ecd1d4492b3612b97222db, type: 3}
+    size: 50
+  - tag: Rock4
+    prefab: {fileID: 100000, guid: e349b6a927183154d9bf449b09b8e413, type: 3}
+    size: 50
+  - tag: Rock5
+    prefab: {fileID: 100000, guid: 7ca168569b7f1c5479b28f521d0a1a32, type: 3}
+    size: 50
+--- !u!4 &1931305808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931305806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960.5593, y: 74.1233, z: 1052.8993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2034767621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5553,6 +5639,7 @@ SceneRoots:
   - {fileID: 726469908}
   - {fileID: 1292893926}
   - {fileID: 689961599}
+  - {fileID: 1931305808}
   - {fileID: 611091584}
   - {fileID: 391392251}
   - {fileID: 1520917626}
