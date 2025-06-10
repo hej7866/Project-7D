@@ -2131,31 +2131,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b0af79fe7f27a4c90c381e9737f702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resources:
-  - tag: Tree1
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Tree2
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Tree3
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Rock1
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Rock2
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Rock3
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Rock4
-    spawnCount: 100
-    allowedBiome: 4
-  - tag: Rock5
-    spawnCount: 100
-    allowedBiome: 4
+  resourceGroups:
+  - resources:
+    - tag: Tree1
+      spawnCount: 200
+      allowedBiome: 4
+    - tag: Tree2
+      spawnCount: 200
+      allowedBiome: 4
+    - tag: Tree3
+      spawnCount: 200
+      allowedBiome: 4
+    - tag: Rock1
+      spawnCount: 100
+      allowedBiome: 4
+    - tag: Rock2
+      spawnCount: 100
+      allowedBiome: 4
+    - tag: Rock3
+      spawnCount: 100
+      allowedBiome: 4
+    - tag: Rock4
+      spawnCount: 100
+      allowedBiome: 4
+    - tag: Rock5
+      spawnCount: 100
+      allowedBiome: 4
+  - resources:
+    - tag: Hematite
+      spawnCount: 50
+      allowedBiome: 1
   terrainMin: {x: 0, y: 0, z: 0}
   terrainMax: {x: 2048, y: 2048, z: 2048}
   baseCenter: {x: 1024, y: 1024, z: 1024}
@@ -5205,33 +5210,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ff5bfd61cb01843b117c2e0e31ef3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResourcePools:
-  - tag: Tree1
-    prefab: {fileID: 299712424454941021, guid: c121c30a0145100499e606c07bbcbda9, type: 3}
-    size: 100
-  - tag: Tree2
-    prefab: {fileID: 5530652132047498927, guid: a5d185c399cc2354aadac2506dd0890c,
-      type: 3}
-    size: 100
-  - tag: Tree3
-    prefab: {fileID: 5400752399725384465, guid: dce7f66f565e811429d99b6f44e20788,
-      type: 3}
-    size: 100
-  - tag: Rock1
-    prefab: {fileID: 100000, guid: 79bce83937e43d042843a359e671ca99, type: 3}
-    size: 50
-  - tag: Rock2
-    prefab: {fileID: 100000, guid: e2abe2db222fa9c49a111c088001ebcf, type: 3}
-    size: 50
-  - tag: Rock3
-    prefab: {fileID: 100000, guid: 3da8c6e2c0ecd1d4492b3612b97222db, type: 3}
-    size: 50
-  - tag: Rock4
-    prefab: {fileID: 100000, guid: e349b6a927183154d9bf449b09b8e413, type: 3}
-    size: 50
-  - tag: Rock5
-    prefab: {fileID: 100000, guid: 7ca168569b7f1c5479b28f521d0a1a32, type: 3}
-    size: 50
+  resourcePoolGroups:
+  - resourcePools:
+    - tag: Tree1
+      prefab: {fileID: 299712424454941021, guid: c121c30a0145100499e606c07bbcbda9,
+        type: 3}
+      size: 200
+    - tag: Tree2
+      prefab: {fileID: 5530652132047498927, guid: a5d185c399cc2354aadac2506dd0890c,
+        type: 3}
+      size: 200
+    - tag: Tree3
+      prefab: {fileID: 5400752399725384465, guid: dce7f66f565e811429d99b6f44e20788,
+        type: 3}
+      size: 200
+    - tag: Rock1
+      prefab: {fileID: 100000, guid: 79bce83937e43d042843a359e671ca99, type: 3}
+      size: 100
+    - tag: Rock2
+      prefab: {fileID: 100000, guid: e2abe2db222fa9c49a111c088001ebcf, type: 3}
+      size: 100
+    - tag: Rock3
+      prefab: {fileID: 100000, guid: 3da8c6e2c0ecd1d4492b3612b97222db, type: 3}
+      size: 100
+    - tag: Rock4
+      prefab: {fileID: 100000, guid: e349b6a927183154d9bf449b09b8e413, type: 3}
+      size: 100
+    - tag: Rock5
+      prefab: {fileID: 100000, guid: 7ca168569b7f1c5479b28f521d0a1a32, type: 3}
+      size: 100
+  - resourcePools:
+    - tag: Hematite
+      prefab: {fileID: 751419562680431755, guid: 46c07862f6b7ede49a66f8f51e4fe078,
+        type: 3}
+      size: 50
 --- !u!4 &1931305808
 Transform:
   m_ObjectHideFlags: 0

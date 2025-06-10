@@ -4,11 +4,13 @@ public enum ResourceType
 {
     Tree,
     Rock,
+    Iron,
 }
 
 public enum Category
 {
-    food,
+    Equipment,
+    Consumable,
     resource,
 }
 

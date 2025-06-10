@@ -16,6 +16,6 @@ MonoBehaviour:
   displayName: "\uB098\uBB34"
   gatherTime: 3
   icon: {fileID: 21300000, guid: 454c770b201f0f74fb6239775e9f3f95, type: 3}
-  category: 1
+  category: 2
   amount: 1
   hitSound: {fileID: 0}

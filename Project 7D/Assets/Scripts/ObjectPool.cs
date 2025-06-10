@@ -12,7 +12,13 @@ public class ObjectPool : SingleTon<ObjectPool>
         public int size;
     }
 
-    public List<ResourcePool> ResourcePools;
+    [System.Serializable]
+    public class ResourcePoolGroup
+    {
+        public List<ResourcePool> resourcePools;
+    }
+
+    public List<ResourcePoolGroup> resourcePoolGroups;
     private Dictionary<string, Queue<GameObject>> poolDictionary;
 
     protected new void Awake()
@@ -20,30 +26,35 @@ public class ObjectPool : SingleTon<ObjectPool>
         ResourcePooling();
     }
 
+
     private Dictionary<string, Transform> poolParents = new(); // 태그별 부모
     void ResourcePooling()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         poolParents = new Dictionary<string, Transform>();
 
-        foreach (ResourcePool pool in ResourcePools)
+        foreach (ResourcePoolGroup resourcePoolGroup in resourcePoolGroups)
         {
-            // 1. 각 리소스 타입별 부모 생성
-            GameObject parentObj = new GameObject($"Resource({pool.tag})");
-            parentObj.transform.SetParent(this.transform); // ObjectPool 아래 정리
-            poolParents[pool.tag] = parentObj.transform;
-
-            // 2. 풀 초기화
-            Queue<GameObject> objectPool = new();
-
-            for (int i = 0; i < pool.size; i++)
+            
+            foreach (ResourcePool resourcePool in resourcePoolGroup.resourcePools)
             {
-                GameObject obj = Instantiate(pool.prefab, parentObj.transform);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
-            }
+                // 1. 각 리소스 타입별 부모 생성
+                GameObject parentObj = new GameObject($"Resource({resourcePool.tag})");
+                parentObj.transform.SetParent(this.transform); // ObjectPool 아래 정리
+                poolParents[resourcePool.tag] = parentObj.transform;
 
-            poolDictionary.Add(pool.tag, objectPool);
+                // 2. 풀 초기화
+                Queue<GameObject> objectPool = new();
+
+                for (int i = 0; i < resourcePool.size; i++)
+                {
+                    GameObject obj = Instantiate(resourcePool.prefab, parentObj.transform);
+                    obj.SetActive(false);
+                    objectPool.Enqueue(obj);
+                }
+
+                poolDictionary.Add(resourcePool.tag, objectPool);
+            }
         }
     }
 

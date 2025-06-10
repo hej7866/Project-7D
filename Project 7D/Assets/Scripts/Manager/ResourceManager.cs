@@ -11,7 +11,14 @@ public class ResourceManager : MonoBehaviour
         public BiomeType allowedBiome;
     }
 
-    public List<ResourceType> resources;
+    [System.Serializable]
+    public class ResourceGroup
+    {
+        public List<ResourceType> resources;
+    }
+
+    public List<ResourceGroup> resourceGroups;
+
 
     [Header("배치 범위")]
     public Vector3 terrainMin = new Vector3(0, 0, 0);
@@ -21,12 +28,16 @@ public class ResourceManager : MonoBehaviour
 
     public float minSpacing = 4f;
     private List<Vector3> placedPositions = new();
+    
 
     void Start()
     {
-        foreach (var resource in resources)
+        foreach (var resourceGroup in resourceGroups)
         {
-            SpawnResources(resource);
+            foreach(var resource in resourceGroup.resources)
+            {  
+                SpawnResources(resource);
+            }
         }
     }
 
