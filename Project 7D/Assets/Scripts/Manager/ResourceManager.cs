@@ -32,9 +32,9 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
-        foreach (var resourceGroup in resourceGroups)
+        foreach (ResourceGroup resourceGroup in resourceGroups)
         {
-            foreach(var resource in resourceGroup.resources)
+            foreach(ResourceType resource in resourceGroup.resources)
             {  
                 SpawnResources(resource);
             }
