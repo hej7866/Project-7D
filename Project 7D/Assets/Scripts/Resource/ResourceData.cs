@@ -5,6 +5,7 @@ public enum ResourceType
     Tree,
     Rock,
     Iron,
+    Cactus,
 }
 
 public enum Category

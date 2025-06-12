@@ -281,6 +281,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50489966}
   m_CullTransparentMesh: 1
+--- !u!1 &64233326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 64233327}
+  m_Layer: 0
+  m_Name: TerrainContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &64233327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64233326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -649.5276, y: 40.21097, z: 1728.9049}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 726469908}
+  - {fileID: 543445626}
+  - {fileID: 441600259}
+  - {fileID: 566561870}
+  - {fileID: 1725101230}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &93706016
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 93706017}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: SideWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,6 +952,11 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 8
+  allTerrain:
+  - {fileID: 543445625}
+  - {fileID: 441600258}
+  - {fileID: 566561869}
+  - {fileID: 1725101229}
 --- !u!4 &380136046
 Transform:
   m_ObjectHideFlags: 0
@@ -963,6 +1004,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6674801114473741853, guid: 1a101681400f20a49892495c78a0a4b6,
     type: 3}
   virtualCamera: {fileID: 654756534}
+  spawnPos: {x: 0, y: 50, z: 512}
 --- !u!4 &391392251
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,7 +1150,7 @@ GameObject:
   - component: {fileID: 441600258}
   - component: {fileID: 441600257}
   - component: {fileID: 441600256}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1130,6 +1172,33 @@ MonoBehaviour:
   CenterPosition: {x: -512, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
+  biome: 4
+  resources:
+  - tag: Tree1
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Tree2
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Tree3
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Rock1
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Rock2
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Rock3
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Rock4
+    spawnCount: 200
+    allowedBiome: 4
+  - tag: Rock5
+    spawnCount: 200
+    allowedBiome: 4
+  minSpacing: 4
 --- !u!154 &441600257
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -1197,12 +1266,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441600255}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -512, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 137.52759, y: -40.21097, z: -1728.9049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 64233327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &465503630
 GameObject:
@@ -1408,7 +1477,7 @@ GameObject:
   - component: {fileID: 543445625}
   - component: {fileID: 543445624}
   - component: {fileID: 543445623}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: City
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1430,6 +1499,9 @@ MonoBehaviour:
   CenterPosition: {x: 512, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
+  biome: 3
+  resources: []
+  minSpacing: 4
 --- !u!154 &543445624
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -1497,12 +1569,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543445622}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 512, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1161.5276, y: -40.21097, z: -1728.9049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 64233327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561449310
 GameObject:
@@ -1516,7 +1588,7 @@ GameObject:
   - component: {fileID: 561449313}
   - component: {fileID: 561449312}
   - component: {fileID: 561449311}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SideWall(S/E)
   m_TagString: BaseWall
   m_Icon: {fileID: 0}
@@ -1621,7 +1693,7 @@ GameObject:
   - component: {fileID: 566561869}
   - component: {fileID: 566561868}
   - component: {fileID: 566561867}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Desert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1643,6 +1715,12 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: -512}
   BiomeSize: 512
   GenerateOnStart: 1
+  biome: 2
+  resources: []
+  minSpacing: 4
+  noiseScale: 0.003
+  heightMultiplier: 0.3
+  seed: 0
 --- !u!154 &566561868
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -1710,12 +1788,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566561866}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -512}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 649.5276, y: -40.21097, z: -2240.9048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 64233327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &598536263
 PrefabInstance:
@@ -1725,10 +1803,85 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 726469908}
     m_Modifications:
+    - target: {fileID: 2518576745326846058, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429608121161018010, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532793383883417364, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475183418544427028, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491196036616214450, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573225612673599844, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250026713330341896, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6434867062548739120, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6614689804047616759, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010601992191800420, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061149821749525823, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145244271155199829, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8294522272862816254, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8436749475634834420, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8601752452679341821, guid: dacd7548fd277b54f8acc65f491757c2,
         type: 3}
       propertyPath: m_Name
       value: BaseWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601752452679341821, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8609889319903978363, guid: dacd7548fd277b54f8acc65f491757c2,
         type: 3}
@@ -1780,90 +1933,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8867856468570742203, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9142211713776255554, guid: dacd7548fd277b54f8acc65f491757c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dacd7548fd277b54f8acc65f491757c2, type: 3}
---- !u!1 &611091582
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 611091584}
-  - component: {fileID: 611091585}
-  m_Layer: 0
-  m_Name: ResourceManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &611091584
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611091582}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.021240592, y: 0.86693686, z: 0.11219746}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &611091585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611091582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48b0af79fe7f27a4c90c381e9737f702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceGroups:
-  - resources:
-    - tag: Tree1
-      spawnCount: 200
-      allowedBiome: 4
-    - tag: Tree2
-      spawnCount: 200
-      allowedBiome: 4
-    - tag: Tree3
-      spawnCount: 200
-      allowedBiome: 4
-    - tag: Rock1
-      spawnCount: 100
-      allowedBiome: 4
-    - tag: Rock2
-      spawnCount: 100
-      allowedBiome: 4
-    - tag: Rock3
-      spawnCount: 100
-      allowedBiome: 4
-    - tag: Rock4
-      spawnCount: 100
-      allowedBiome: 4
-    - tag: Rock5
-      spawnCount: 100
-      allowedBiome: 4
-  - resources:
-    - tag: Hematite
-      spawnCount: 50
-      allowedBiome: 1
-  terrainMin: {x: 0, y: 0, z: 0}
-  terrainMax: {x: 2048, y: 2048, z: 2048}
-  baseCenter: {x: 1024, y: 1024, z: 1024}
-  baseSize: 64
-  minSpacing: 4
 --- !u!1 &654756533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,7 +2076,7 @@ GameObject:
   - component: {fileID: 726469907}
   - component: {fileID: 726469906}
   - component: {fileID: 726469909}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2066,15 +2150,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726469905}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 649.5276, y: -40.21097, z: -1728.9049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 93706017}
   - {fileID: 305561473}
   - {fileID: 2067985197}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 64233327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &726469909
 MonoBehaviour:
@@ -2091,6 +2175,9 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
+  biome: 0
+  resources: []
+  minSpacing: 4
 --- !u!1001 &747067186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2099,10 +2186,85 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 726469908}
     m_Modifications:
+    - target: {fileID: 2518576745326846058, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429608121161018010, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532793383883417364, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475183418544427028, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491196036616214450, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573225612673599844, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250026713330341896, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6434867062548739120, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6614689804047616759, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010601992191800420, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061149821749525823, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145244271155199829, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8294522272862816254, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8436749475634834420, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8601752452679341821, guid: 9a666ecf317e2f049995a8e3bd54fc50,
         type: 3}
       propertyPath: m_Name
       value: BiomeWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601752452679341821, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8609889319903978363, guid: 9a666ecf317e2f049995a8e3bd54fc50,
         type: 3}
@@ -2153,6 +2315,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867856468570742203, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9142211713776255554, guid: 9a666ecf317e2f049995a8e3bd54fc50,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2794,7 +2966,7 @@ GameObject:
   - component: {fileID: 1228568964}
   - component: {fileID: 1228568963}
   - component: {fileID: 1228568962}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SideWall(N/E)
   m_TagString: BaseWall
   m_Icon: {fileID: 0}
@@ -3731,7 +3903,7 @@ MonoBehaviour:
     type: 3}
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 512
   PlacementBlockedLayers:
     serializedVersion: 2
     m_Bits: 384
@@ -3899,7 +4071,7 @@ GameObject:
   - component: {fileID: 1725101229}
   - component: {fileID: 1725101228}
   - component: {fileID: 1725101227}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3921,8 +4093,15 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 512}
   BiomeSize: 512
   GenerateOnStart: 1
+  biome: 1
+  resources:
+  - tag: Hematite
+    spawnCount: 50
+    allowedBiome: 1
+  minSpacing: 4
   noiseScale: 0.005
   heightMultiplier: 0.4
+  seed: 0
 --- !u!154 &1725101228
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -3990,12 +4169,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725101226}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 512}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 649.5276, y: -40.21097, z: -1216.9049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 64233327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774237469
 GameObject:
@@ -4231,7 +4410,7 @@ GameObject:
   - component: {fileID: 1883196738}
   - component: {fileID: 1883196737}
   - component: {fileID: 1883196736}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SideWall(S/W)
   m_TagString: BaseWall
   m_Icon: {fileID: 0}
@@ -4340,7 +4519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1931305807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4495,7 +4674,7 @@ GameObject:
   - component: {fileID: 2072710232}
   - component: {fileID: 2072710231}
   - component: {fileID: 2072710230}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SideWall(N/W)
   m_TagString: BaseWall
   m_Icon: {fileID: 0}
@@ -4797,15 +4976,10 @@ SceneRoots:
   - {fileID: 654756535}
   - {fileID: 832575519}
   - {fileID: 410087041}
-  - {fileID: 726469908}
-  - {fileID: 543445626}
-  - {fileID: 441600259}
-  - {fileID: 1725101230}
-  - {fileID: 566561870}
+  - {fileID: 64233327}
   - {fileID: 1292893926}
   - {fileID: 689961599}
   - {fileID: 1931305808}
-  - {fileID: 611091584}
   - {fileID: 391392251}
   - {fileID: 1520917626}
   - {fileID: 1681500465}

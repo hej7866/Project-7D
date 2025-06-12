@@ -8,10 +8,10 @@ public class PlayerSpawner : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
 
     private GameObject spawnedPlayer;
+    [SerializeField] Vector3 spawnPos = new Vector3(0f, 0f, 0f);
 
     void Start()
     {
-        Vector3 spawnPos = new Vector3(0f, 0f, 0f);
         spawnedPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
 
         if (virtualCamera != null)

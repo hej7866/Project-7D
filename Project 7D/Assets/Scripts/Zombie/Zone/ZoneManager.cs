@@ -8,14 +8,11 @@ using System.Collections;
 
 public class ZoneManager : SingleTon<ZoneManager>
 {
-    private const int WorldSize = 2048;
-    private const int BaseSize = 64;
-    private const int WorldCenter = WorldSize / 2;
-
     [Header("설정")]
     public float ZoneSize = 4f; // 한 청크의 크기
     public GameObject ZombiePrefab;
     public LayerMask GroundLayer;
+    public Terrain[] allTerrain;
 
     private Dictionary<Vector2Int, WorldZone> zones = new();
     private Transform player;
@@ -70,6 +67,7 @@ public class ZoneManager : SingleTon<ZoneManager>
 
     void TrySpawnZombies(WorldZone zone)
     {
+        Debug.Log($"{zone.biome}");
         float spawnChance = zone.baseSpawnChance * GetBiomeMultiplier(zone.biome) * GetDayMultiplier();
         if (Random.value < spawnChance)
         {
@@ -77,7 +75,7 @@ public class ZoneManager : SingleTon<ZoneManager>
             for (int i = 0; i < count; i++)
             {
                 Vector3 pos = zone.centerPos + Random.insideUnitSphere * (ZoneSize / 2);
-                pos.y = Terrain.activeTerrain.SampleHeight(pos);
+                pos = GetTerrainHeight(zone, pos);
                 GameObject zombie = Instantiate(ZombiePrefab, pos, Quaternion.identity);
                 zone.zombiesInZone.Add(zombie);
             }
@@ -89,6 +87,7 @@ public class ZoneManager : SingleTon<ZoneManager>
         return biome switch
         {
             BiomeType.City => 0.5f,
+            BiomeType.Forest => 0.8f,
             BiomeType.Desert => 1.5f,
             BiomeType.Snow => 1.8f,
             _ => 1f
@@ -101,25 +100,41 @@ public class ZoneManager : SingleTon<ZoneManager>
         return 1f + (day - 1) * 0.1f;
     }
 
-
-   BiomeType GetBiome(int x, int z)
+    Vector3 GetTerrainHeight(WorldZone zone, Vector3 pos)
     {
-        int dx = x - WorldCenter;
-        int dz = z - WorldCenter;
-
-        if (Mathf.Abs(dx) <= BaseSize / 2 && Mathf.Abs(dz) <= BaseSize / 2)
-            return BiomeType.Base;
-
-        if (Mathf.Abs(dz) > Mathf.Abs(dx))
-            return dz > 0 ? BiomeType.Snow : BiomeType.Desert;
-        else
-            return dx > 0 ? BiomeType.City : BiomeType.Forest;
+        switch (zone.biome)
+        {
+            case BiomeType.City:
+                pos.y = allTerrain[0].SampleHeight(pos);
+                break;
+            case BiomeType.Forest:
+                pos.y = allTerrain[1].SampleHeight(pos);
+                break;
+            case BiomeType.Desert:
+                pos.y = allTerrain[2].SampleHeight(pos);
+                break;
+            case BiomeType.Snow:
+                pos.y = allTerrain[3].SampleHeight(pos);
+                break;
+        }
+        return pos;
     }
+
 
     BiomeType GetBiome(Vector3 worldPos)
     {
-        return GetBiome(Mathf.FloorToInt(worldPos.x), Mathf.FloorToInt(worldPos.z));
-    } 
+        Ray ray = new Ray(worldPos + Vector3.up * 50f, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        {
+            int layer = hit.collider.gameObject.layer;
+
+            if (layer == LayerMask.NameToLayer("City")) return BiomeType.City;
+            else if (layer == LayerMask.NameToLayer("Forest")) return BiomeType.Forest;
+            else if (layer == LayerMask.NameToLayer("Desert")) return BiomeType.Desert;
+            else if (layer == LayerMask.NameToLayer("Snow")) return BiomeType.Snow;
+        }
+        return BiomeType.Base;
+    }
 
 
 
