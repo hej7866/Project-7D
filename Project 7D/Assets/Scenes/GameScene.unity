@@ -1004,7 +1004,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6674801114473741853, guid: 1a101681400f20a49892495c78a0a4b6,
     type: 3}
   virtualCamera: {fileID: 654756534}
-  spawnPos: {x: 0, y: 50, z: 512}
+  spawnPos: {x: 0, y: 50, z: -512}
 --- !u!4 &391392251
 Transform:
   m_ObjectHideFlags: 0
