@@ -14,14 +14,14 @@ public class PlayerController : SingleTon<PlayerController>
     public int maxThirst = 100;
     public int maxStamina = 100;
 
-    private int _hunger;
-    private int _thirst;
-    private float _stamina;
+    private int hunger;
+    private int thirst;
+    private float stamina;
 
     // 읽기전용 값 할당은 _변수로 !!
-    public int Hunger => _hunger; 
-    public int Thirst => _thirst;
-    public float Stamina => _stamina;
+    public int Hunger => hunger; 
+    public int Thirst => thirst;
+    public float Stamina => stamina;
 
     [SerializeField] private float hungerDecreaseRate = 1f; // 초당 1
     [SerializeField] private float thirstDecreaseRate = 1.2f;
@@ -90,27 +90,27 @@ public class PlayerController : SingleTon<PlayerController>
     void UpdatePlayerCondition()
     {
         // 생존 스탯 감소
-        _hunger = Mathf.Max(0, _hunger - Mathf.FloorToInt(hungerDecreaseRate * Time.deltaTime));
-        _thirst = Mathf.Max(0, _thirst - Mathf.FloorToInt(thirstDecreaseRate * Time.deltaTime));
+        hunger = Mathf.Max(0, hunger - Mathf.FloorToInt(hungerDecreaseRate * Time.deltaTime));
+        thirst = Mathf.Max(0, thirst - Mathf.FloorToInt(thirstDecreaseRate * Time.deltaTime));
 
         // 스태미너 조절
         bool isRunning = Input.GetKey(KeyCode.LeftShift) && moveDir != Vector3.zero;
 
-        if (isRunning && _stamina > 0)
+        if (isRunning && stamina > 0)
         {
-            _stamina -= staminaDecreaseRate * Time.deltaTime;
+            stamina -= staminaDecreaseRate * Time.deltaTime;
             moveSpeed = 8f;
         }
         else
         {
-            _stamina += staminaRecoverRate * Time.deltaTime;
+            stamina += staminaRecoverRate * Time.deltaTime;
             moveSpeed = 5f;
         }
 
-        _stamina = Mathf.Clamp(_stamina, 0f, maxStamina);
+        stamina = Mathf.Clamp(stamina, 0f, maxStamina);
 
         // 배고픔/목마름 페널티
-        if (_hunger == 0 || _thirst == 0)
+        if (hunger == 0 || thirst == 0)
         {
             PlayerHealth -= 1; // 서서히 체력 감소
         }
@@ -127,18 +127,18 @@ public class PlayerController : SingleTon<PlayerController>
 
     public void Eat(int amount) // 먹기
     {
-        _hunger = Mathf.Clamp(_hunger + amount, 0, maxHunger);
+        hunger = Mathf.Clamp(hunger + amount, 0, maxHunger);
     }
 
     public void Drink(int amount) // 마시기
     {
-        _thirst = Mathf.Clamp(_thirst + amount, 0, maxThirst);
+        thirst = Mathf.Clamp(thirst + amount, 0, maxThirst);
     }
 
     public void RestoreStamina(float amount) // 스테미너 회복
     {
 
-        _stamina = Mathf.Clamp(_stamina + amount, 0f, maxStamina);
+        stamina = Mathf.Clamp(stamina + amount, 0f, maxStamina);
     }
 
     void Die()

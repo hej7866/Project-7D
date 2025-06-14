@@ -27,7 +27,7 @@ public class ZombieStepAI : MonoBehaviour
     {
         if (target == null) return;
 
-        Vector3 dir = (target.position - transform.position);
+        Vector3 dir = target.position - transform.position;
         dir.y = 0f;
         dir.Normalize();
 

@@ -7,8 +7,8 @@ public class BuildManager : MonoBehaviour
 
     [Header("프리뷰 (고스트)")]
     public GameObject PreviewPrefab;
-    private GameObject PreviewInstance;
-    private Renderer PreviewRenderer;
+    private GameObject previewInstance;
+    private Renderer previewRenderer;
 
     [Header("설치 관련 설정")]
     public LayerMask GroundLayer;
@@ -16,7 +16,7 @@ public class BuildManager : MonoBehaviour
     public float GridSize = 1f;
     public Vector3 BoxSize = new Vector3(1f, 1f, 1f);
 
-    private bool _isBuildMode = false;
+    private bool isBuildMode = false;
 
     void Update()
     {
@@ -26,14 +26,14 @@ public class BuildManager : MonoBehaviour
             ToggleBuildMode();
         }
 
-        if (!_isBuildMode || PreviewInstance == null) return;
+        if (!isBuildMode || previewInstance == null) return;
 
         // 마우스 위치 기반 스냅
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, GroundLayer))
         {
             Vector3 snappedPos = GetSnappedPosition(hit.point);
-            PreviewInstance.transform.position = snappedPos;
+            previewInstance.transform.position = snappedPos;
 
             bool canBuild = CanPlaceBuilding(snappedPos);
             SetPreviewColor(canBuild ? Color.green : Color.red);
@@ -42,28 +42,28 @@ public class BuildManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && canBuild)
             {
                 Instantiate(BuildingPrefab, snappedPos, Quaternion.identity);
-                Destroy(PreviewInstance);
-                PreviewInstance = null;
-                _isBuildMode = false;
+                Destroy(previewInstance);
+                previewInstance = null;
+                isBuildMode = false;
             }
         }
     }
 
     void ToggleBuildMode()
     {
-        if (_isBuildMode)
+        if (isBuildMode)
         {
             // 모드 종료
-            if (PreviewInstance != null) Destroy(PreviewInstance);
-            PreviewInstance = null;
-            _isBuildMode = false;
+            if (previewInstance != null) Destroy(previewInstance);
+            previewInstance = null;
+            isBuildMode = false;
         }
         else
         {
             // 모드 시작
-            PreviewInstance = Instantiate(PreviewPrefab);
-            PreviewRenderer = PreviewInstance.GetComponentInChildren<Renderer>();
-            _isBuildMode = true;
+            previewInstance = Instantiate(PreviewPrefab);
+            previewRenderer = previewInstance.GetComponentInChildren<Renderer>();
+            isBuildMode = true;
         }
     }
 
@@ -81,9 +81,9 @@ public class BuildManager : MonoBehaviour
 
     void SetPreviewColor(Color color)
     {
-        if (PreviewRenderer != null)
+        if (previewRenderer != null)
         {
-            Material mat = PreviewRenderer.material;
+            Material mat = previewRenderer.material;
             color.a = 0.5f;
             mat.color = color;
         }

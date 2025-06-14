@@ -5,8 +5,8 @@ public class ResourceInteraction : MonoBehaviour
     private Animator animator;
     private ResourceNode targetNode;
 
-    private float _gatherTimer = 0f;
-    private bool _isHolding = false;
+    private float gatherTimer = 0f;
+    private bool isHolding = false;
 
     void Start()
     {
@@ -19,17 +19,17 @@ public class ResourceInteraction : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                if (!_isHolding)
+                if (!isHolding)
                 {
-                    _isHolding = true;
+                    isHolding = true;
                     animator.SetBool("isChopping", true);
                     UIManager.Instance.ShowGatherUI();
                 }
 
-                _gatherTimer += Time.deltaTime;
-                UIManager.Instance.SetGatherProgress(_gatherTimer / targetNode.Data.gatherTime);
+                gatherTimer += Time.deltaTime;
+                UIManager.Instance.SetGatherProgress(gatherTimer / targetNode.Data.gatherTime);
 
-                if (_gatherTimer >= targetNode.Data.gatherTime)
+                if (gatherTimer >= targetNode.Data.gatherTime)
                 {
                     OnGatherComplete();
                 }
@@ -56,9 +56,9 @@ public class ResourceInteraction : MonoBehaviour
 
     void ResetGathering()
     {
-        _isHolding = false;
+        isHolding = false;
         animator.SetBool("isChopping", false);
-        _gatherTimer = 0f;
+        gatherTimer = 0f;
         UIManager.Instance.HideGatherUI();
     }
 

@@ -4,13 +4,13 @@ using UnityEngine;
 public class DesertGenerator : BiomeGenerator
 {
     [Header("펄린 노이즈 스케일")]
-    public float noiseScale = 0.003f;
+    [SerializeField] private float noiseScale = 0.003f;
 
     [Header("높이 배율")]
-    public float heightMultiplier = 0.3f;
+    [SerializeField] private float heightMultiplier = 0.2f;
 
     [Header("랜덤 시드")]
-    public int seed = 0;
+    [SerializeField] private int seed = 0;
 
     private float offsetX;
     private float offsetZ;
