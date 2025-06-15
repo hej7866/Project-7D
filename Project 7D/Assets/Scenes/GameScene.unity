@@ -1001,10 +1001,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a24875ac033f9e4eb16f8bef51e464e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6674801114473741853, guid: 1a101681400f20a49892495c78a0a4b6,
+  PlayerPrefab: {fileID: 6674801114473741853, guid: 1a101681400f20a49892495c78a0a4b6,
     type: 3}
-  virtualCamera: {fileID: 654756534}
-  spawnPos: {x: -512, y: 40, z: 0}
+  VirtualCamera: {fileID: 654756534}
+  spawnPos: {x: -512, y: 30, z: 0}
 --- !u!4 &391392251
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,33 +1172,9 @@ MonoBehaviour:
   CenterPosition: {x: -512, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
-  biome: 4
-  resources:
-  - tag: Tree1
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Tree2
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Tree3
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Rock1
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Rock2
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Rock3
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Rock4
-    spawnCount: 200
-    allowedBiome: 4
-  - tag: Rock5
-    spawnCount: 200
-    allowedBiome: 4
-  minSpacing: 4
+  Biome: 0
+  Resources: []
+  MinSpacing: 4
   noiseScale: 0.003
   heightMultiplier: 0.3
   seed: 0
@@ -1502,9 +1478,9 @@ MonoBehaviour:
   CenterPosition: {x: 512, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
-  biome: 3
-  resources: []
-  minSpacing: 4
+  Biome: 0
+  Resources: []
+  MinSpacing: 4
 --- !u!154 &543445624
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -1718,9 +1694,9 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: -512}
   BiomeSize: 512
   GenerateOnStart: 1
-  biome: 2
-  resources: []
-  minSpacing: 4
+  Biome: 0
+  Resources: []
+  MinSpacing: 4
   noiseScale: 0.003
   heightMultiplier: 0.3
   seed: 0
@@ -2178,9 +2154,9 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   BiomeSize: 512
   GenerateOnStart: 1
-  biome: 0
-  resources: []
-  minSpacing: 4
+  Biome: 0
+  Resources: []
+  MinSpacing: 4
 --- !u!1001 &747067186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4096,12 +4072,9 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 512}
   BiomeSize: 512
   GenerateOnStart: 1
-  biome: 1
-  resources:
-  - tag: Hematite
-    spawnCount: 50
-    allowedBiome: 1
-  minSpacing: 4
+  Biome: 0
+  Resources: []
+  MinSpacing: 4
   noiseScale: 0.005
   heightMultiplier: 0.4
   seed: 0

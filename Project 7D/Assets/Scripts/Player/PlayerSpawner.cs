@@ -4,19 +4,19 @@ using Cinemachine;
 public class PlayerSpawner : MonoBehaviour
 {
     [Header("참조")]
-    public GameObject playerPrefab;
-    public CinemachineVirtualCamera virtualCamera;
+    public GameObject PlayerPrefab;
+    public CinemachineVirtualCamera VirtualCamera;
 
     private GameObject spawnedPlayer;
     [SerializeField] Vector3 spawnPos = new Vector3(0f, 0f, 0f);
 
     void Start()
     {
-        spawnedPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+        spawnedPlayer = Instantiate(PlayerPrefab, spawnPos, Quaternion.identity);
 
-        if (virtualCamera != null)
+        if (VirtualCamera != null)
         {
-            virtualCamera.Follow = spawnedPlayer.transform;
+            VirtualCamera.Follow = spawnedPlayer.transform;
         }
 
         ZoneManager.Instance.SetPlayer(spawnedPlayer.transform);

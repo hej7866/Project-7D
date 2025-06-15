@@ -21,11 +21,11 @@ public abstract class BiomeGenerator : MonoBehaviour
     public bool GenerateOnStart = true;
 
     [Header("바이옴")]
-    public BiomeType biome;
+    public BiomeType Biome;
 
     [Header("자원 배치 설정")]
-    public List<ResourceType> resources;
-    public float minSpacing = 4f;
+    public List<ResourceType> Resources;
+    public float MinSpacing = 4f;
 
     protected List<Vector3> placedPositions = new();
     protected Terrain terrain;
@@ -62,7 +62,7 @@ public abstract class BiomeGenerator : MonoBehaviour
     /// </summary>
     protected virtual void GenerateResources()
     {
-        foreach (var resource in resources)
+        foreach (var resource in Resources)
         {
             SpawnResources(resource);
         }
@@ -101,7 +101,7 @@ public abstract class BiomeGenerator : MonoBehaviour
     {
         foreach (var p in placedPositions)
         {
-            if (Vector3.Distance(pos, p) < minSpacing)
+            if (Vector3.Distance(pos, p) < MinSpacing)
                 return false;
         }
         return true;
