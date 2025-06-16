@@ -116,6 +116,9 @@ public class ZoneManager : SingleTon<ZoneManager>
             case BiomeType.Snow:
                 pos.y = allTerrain[3].SampleHeight(pos);
                 break;
+            case BiomeType.Base:
+                pos.y = 0;
+                break;
         }
         return pos;
     }
