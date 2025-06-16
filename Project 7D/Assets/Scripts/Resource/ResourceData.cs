@@ -6,6 +6,7 @@ public enum ResourceType
     Rock,
     Iron,
     Cactus,
+    Aloe,
 }
 
 public enum Category
