@@ -2644,9 +2644,9 @@ MonoBehaviour:
   maxThirst: 100
   maxStamina: 100
   hungerDecreaseRate: 1
-  thirstDecreaseRate: 1.2
+  thirstDecreaseRate: 1
   staminaDecreaseRate: 2
-  staminaRecoverRate: 20
+  staminaRecoverRate: 1.5
 --- !u!114 &8107342390332516087
 MonoBehaviour:
   m_ObjectHideFlags: 0

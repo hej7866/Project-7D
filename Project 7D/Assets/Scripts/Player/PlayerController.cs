@@ -17,20 +17,21 @@ public class PlayerController : SingleTon<PlayerController>
     private int hunger;
     private int thirst;
     private float stamina;
+    private float time;
 
     // 읽기전용 값 할당은 _변수로 !!
     public int Hunger => hunger; 
     public int Thirst => thirst;
     public float Stamina => stamina;
 
-    [SerializeField] private float hungerDecreaseRate = 1f; // 초당 1
-    [SerializeField] private float thirstDecreaseRate = 1.2f;
+    [SerializeField] private int hungerDecreaseRate = 1; // 초당 1
+    [SerializeField] private int thirstDecreaseRate = 1;
     [SerializeField] private float staminaDecreaseRate = 1f;
-    [SerializeField] private float staminaIncreaseRate = 1f;
     [SerializeField] private float staminaRecoverRate = 20f;
 
     public event Action<float> OnPlayerHealthChanged; // 체력 이벤트
     public event Action<float> OnPlayerStaminaChanged; // 체력 이벤트
+    public event Action<int, int> OnPlayerConditonChanged;
 
 
     private float _playerHealth;
@@ -59,6 +60,7 @@ public class PlayerController : SingleTon<PlayerController>
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        time = 0f;
 
         SetPlayerConditon();
     }
@@ -148,8 +150,19 @@ public class PlayerController : SingleTon<PlayerController>
         }
         else if (!isRun)
         {
-            stamina = Mathf.Min(100, stamina + staminaIncreaseRate * Time.deltaTime);
+            stamina = Mathf.Min(100, stamina + staminaRecoverRate * Time.deltaTime);
             OnPlayerStaminaChanged.Invoke(stamina);
+        }
+
+        time += Time.deltaTime;
+        if (time >= 5f)
+        {
+            hunger -= hungerDecreaseRate;
+            thirst -= thirstDecreaseRate;
+            Debug.Log($"{hunger},{thirst}");
+            OnPlayerConditonChanged.Invoke(hunger, thirst);
+
+            time = 0f;
         }
 
         // 배고픔/목마름 페널티
