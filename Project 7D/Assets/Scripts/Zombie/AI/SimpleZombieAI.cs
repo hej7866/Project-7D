@@ -24,7 +24,7 @@ public class SimpleZombieAI : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player")?.transform;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animator>();
     }
 

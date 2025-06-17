@@ -43,13 +43,17 @@ public abstract class BiomeGenerator : MonoBehaviour
             CenterPosition.y,
             CenterPosition.z - BiomeSize / 2f
         );
+
+        if (GenerateOnStart)
+        {
+            GenerateBiome();
+        }
     }
 
     protected virtual void Start()
     {
         if (GenerateOnStart)
         {
-            GenerateBiome();
             GenerateResources();
         }
     }

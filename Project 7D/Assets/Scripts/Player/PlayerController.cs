@@ -17,7 +17,7 @@ public class PlayerController : SingleTon<PlayerController>
     private int hunger;
     private int thirst;
     private float stamina;
-    private float time;
+    private float conditonTickInterval;
 
     // 읽기전용 값 할당은 _변수로 !!
     public int Hunger => hunger; 
@@ -60,7 +60,7 @@ public class PlayerController : SingleTon<PlayerController>
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        time = 0f;
+        conditonTickInterval = 0f;
 
         SetPlayerConditon();
     }
@@ -154,15 +154,15 @@ public class PlayerController : SingleTon<PlayerController>
             OnPlayerStaminaChanged.Invoke(stamina);
         }
 
-        time += Time.deltaTime;
-        if (time >= 5f)
+        conditonTickInterval += Time.deltaTime;
+        if (conditonTickInterval >= 5f)
         {
             hunger -= hungerDecreaseRate;
             thirst -= thirstDecreaseRate;
-            Debug.Log($"{hunger},{thirst}");
+
             OnPlayerConditonChanged.Invoke(hunger, thirst);
 
-            time = 0f;
+            conditonTickInterval = 0f;
         }
 
         // 배고픔/목마름 페널티

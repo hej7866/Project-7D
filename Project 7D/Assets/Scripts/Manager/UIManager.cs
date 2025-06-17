@@ -97,16 +97,17 @@ public class UIManager : SingleTon<UIManager>
         }
     }
 
+    // 체력바 UI
     public void PlayerHealthGatherBarUI(float playerHealth)
     {
         healthGatherBar.fillAmount = playerHealth / PlayerController.Instance.maxHealth;
     }
-
+    // 스테미너 UI
     public void PlayerStaminaGatherBarUI(float playerStamina)
     {
         staminaGatherBar.fillAmount = playerStamina / PlayerController.Instance.maxStamina;
     }
-
+    // 배고픔, 목마름 UI
     public void PlayerConditonGatherBarUI(int hunger, int thirst)
     {
         hungerGatherBar.fillAmount = (float)hunger / PlayerController.Instance.maxHunger;
