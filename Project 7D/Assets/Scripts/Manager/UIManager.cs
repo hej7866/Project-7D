@@ -32,7 +32,8 @@ public class UIManager : SingleTon<UIManager>
     void Start()
     {
         PlayerInventory.Instance.OnResourceChanged += UpdateInventoryUI;
-        PlayerController.Instance.OnPlayerHealthChanged += PlayerConditonGatherBarUI;
+        PlayerController.Instance.OnPlayerHealthChanged += PlayerHealthGatherBarUI;
+        PlayerController.Instance.OnPlayerStaminaChanged += PlayerStaminaGatherBarUI;
         TimeManager.Instance.OnNewDay += UpdateDayDisplay;
     }
 
@@ -95,9 +96,14 @@ public class UIManager : SingleTon<UIManager>
         }
     }
 
-    public void PlayerConditonGatherBarUI(float playerHealth)
+    public void PlayerHealthGatherBarUI(float playerHealth)
     {
         healthGatherBar.fillAmount = playerHealth / PlayerController.Instance.maxHealth;
+    }
+
+    public void PlayerStaminaGatherBarUI(float playerStamina)
+    {
+        staminaGatherBar.fillAmount = playerStamina / PlayerController.Instance.maxStamina;
     }
 }
 

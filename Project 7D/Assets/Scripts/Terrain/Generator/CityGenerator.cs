@@ -20,12 +20,12 @@ public class CityGenerator : BiomeGenerator
 
     void BuildTown()
     {
-        for (int x = 356; x <= 656; x += 300)
+        for (int x = 356; x <= 656; x += 100)
         {
-            for (int y = -156; y <= 156; y += 100)
+            for (int z = -156; z <= 156; z += 300)
             {
-                Vector3 pos = new Vector3(x, 0, y);
-                Instantiate(townPrefabs[0], pos, Quaternion.identity, city.transform);
+                Vector3 pos = new Vector3(x, 0, z);
+                Instantiate(townPrefabs[0], pos, Quaternion.Euler(0, 90, 0), city.transform);
             }
         }
         

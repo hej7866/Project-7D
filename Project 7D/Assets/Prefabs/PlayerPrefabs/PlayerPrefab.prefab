@@ -2645,7 +2645,7 @@ MonoBehaviour:
   maxStamina: 100
   hungerDecreaseRate: 1
   thirstDecreaseRate: 1.2
-  staminaDecreaseRate: 30
+  staminaDecreaseRate: 2
   staminaRecoverRate: 20
 --- !u!114 &8107342390332516087
 MonoBehaviour:

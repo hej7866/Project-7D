@@ -25,10 +25,12 @@ public class PlayerController : SingleTon<PlayerController>
 
     [SerializeField] private float hungerDecreaseRate = 1f; // 초당 1
     [SerializeField] private float thirstDecreaseRate = 1.2f;
-    [SerializeField] private float staminaDecreaseRate = 30f;
+    [SerializeField] private float staminaDecreaseRate = 1f;
+    [SerializeField] private float staminaIncreaseRate = 1f;
     [SerializeField] private float staminaRecoverRate = 20f;
 
-    public event Action<float> OnPlayerHealthChanged;
+    public event Action<float> OnPlayerHealthChanged; // 체력 이벤트
+    public event Action<float> OnPlayerStaminaChanged; // 체력 이벤트
 
 
     private float _playerHealth;
@@ -47,6 +49,7 @@ public class PlayerController : SingleTon<PlayerController>
     }
 
     private bool isDead = false;
+    private bool isRun = false;
     private Rigidbody rb;
     private Animator animator;
 
@@ -56,7 +59,8 @@ public class PlayerController : SingleTon<PlayerController>
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        PlayerHealth = maxHealth;
+
+        SetPlayerConditon();
     }
 
     void Update()
@@ -66,10 +70,36 @@ public class PlayerController : SingleTon<PlayerController>
 
         moveDir = new Vector3(h, 0, v).normalized;
 
-        if (h == 0 && v == 0)
-            animator.SetBool("isWalking", false);
+        if (Input.GetKey(KeyCode.LeftShift)) 
+        {
+            if (IsMove(h, v)) // 걷다가 -> 뛰기
+            {
+                animator.SetBool("isRunning", true);
+                animator.SetBool("isWalking", false);
+                isRun = true;
+            }
+            else // 멈추기
+            {
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isWalking", false);
+                isRun = false;
+            }
+        }
         else
-            animator.SetBool("isWalking", true);
+        {
+            if (IsMove(h, v)) // 뛰다가 -> 걷기
+            {
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isRunning", false);
+                isRun = false;
+            }
+            else // 멈추기
+            {
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", false);
+                isRun = false;
+            }
+        }
 
         // 방향 회전
         if (moveDir != Vector3.zero)
@@ -78,42 +108,55 @@ public class PlayerController : SingleTon<PlayerController>
             rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, toRotation, 360 * Time.fixedDeltaTime));
         }
 
-        //UpdatePlayerCondition();
+        UpdatePlayerCondition();
 
     }
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+        if (!isRun) rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+        else if(isRun) rb.MovePosition(rb.position + moveDir * moveSpeed * 2 * Time.fixedDeltaTime);
     }
+
+    /// <summary>
+    /// 플레이어 컨디션 세팅
+    /// </summary>
+    void SetPlayerConditon()
+    {
+        PlayerHealth = maxHealth;
+        hunger = maxHunger;
+        thirst = maxThirst;
+        stamina = maxStamina;
+    }
+
+    bool IsMove(float h, float v)
+    {
+        if (h == 0 && v == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
     void UpdatePlayerCondition()
     {
-        // 생존 스탯 감소
-        hunger = Mathf.Max(0, hunger - Mathf.FloorToInt(hungerDecreaseRate * Time.deltaTime));
-        thirst = Mathf.Max(0, thirst - Mathf.FloorToInt(thirstDecreaseRate * Time.deltaTime));
-
-        // 스태미너 조절
-        bool isRunning = Input.GetKey(KeyCode.LeftShift) && moveDir != Vector3.zero;
-
-        if (isRunning && stamina > 0)
+        if (isRun)
         {
-            stamina -= staminaDecreaseRate * Time.deltaTime;
-            moveSpeed = 8f;
+            stamina = Mathf.Max(0, stamina - staminaDecreaseRate * Time.deltaTime);
+            OnPlayerStaminaChanged.Invoke(stamina);
         }
-        else
+        else if (!isRun)
         {
-            stamina += staminaRecoverRate * Time.deltaTime;
-            moveSpeed = 5f;
+            stamina = Mathf.Min(100, stamina + staminaIncreaseRate * Time.deltaTime);
+            OnPlayerStaminaChanged.Invoke(stamina);
         }
-
-        stamina = Mathf.Clamp(stamina, 0f, maxStamina);
 
         // 배고픔/목마름 페널티
-        if (hunger == 0 || thirst == 0)
-        {
-            PlayerHealth -= 1; // 서서히 체력 감소
-        }
+        // if (hunger == 0 || thirst == 0)
+        // {
+        //     PlayerHealth -= 1; // 서서히 체력 감소
+        // }
     }
 
 
