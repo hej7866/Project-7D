@@ -1614,16 +1614,16 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 512}
   portalLinks:
   - portal: {fileID: 1740209066}
-    linkedPortal: {fileID: 5064046406931840045, guid: f58ff9f0e2c82af4391452c91a93e831,
+    linkedPortal: {fileID: 539152524218077282, guid: 7dfd8243ccf6f334e8bd858da01834ad,
       type: 3}
   - portal: {fileID: 200149495}
-    linkedPortal: {fileID: 5064046406931840045, guid: a212f7a313f062a468b64c19ed392ea0,
+    linkedPortal: {fileID: 539152524218077282, guid: 370af28921d1e694eb896e95a7b95947,
       type: 3}
   - portal: {fileID: 1183230745}
-    linkedPortal: {fileID: 5064046406931840045, guid: 7b12a2e6367a2e3478ac2d323b696acb,
+    linkedPortal: {fileID: 539152524218077282, guid: b058efb63727aa8498960a256000f04a,
       type: 3}
   - portal: {fileID: 837205041}
-    linkedPortal: {fileID: 5064046406931840045, guid: 2e2f085d6edfe8348a36fea823b697cf,
+    linkedPortal: {fileID: 539152524218077282, guid: 09aecbbc2930b444d9abb842712b4801,
       type: 3}
   portalContainer: {fileID: 1051934538}
   terrains:
