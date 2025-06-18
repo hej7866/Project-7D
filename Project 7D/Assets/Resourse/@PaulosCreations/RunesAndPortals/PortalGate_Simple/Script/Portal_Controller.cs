@@ -134,8 +134,10 @@ public class Portal_Controller : MonoBehaviour
             ParticleSystem.MainModule mod = part.main;
             mod.startColor = portalEffectColor;
         }
-        
+
         portalAudio.volume = 0f;
         portalLight.intensity = 0f;
+        
+        TogglePortal(true);
     }
 }
