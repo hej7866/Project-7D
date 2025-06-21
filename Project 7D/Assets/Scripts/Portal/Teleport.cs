@@ -38,6 +38,11 @@ public class Teleport : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        onTriggerTime = 0f;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (portalType == PortalType.Portal)
