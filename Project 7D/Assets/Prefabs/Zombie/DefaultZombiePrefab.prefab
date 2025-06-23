@@ -1311,7 +1311,7 @@ MonoBehaviour:
   zombieStepAI: {fileID: -1028518309220510291}
   ZombieAttackRange: 0.3
   ZombieAttackPower: 2
-  ZombieChasingRange: 8
+  ZombieChasingRange: 12
   anim: {fileID: 0}
 --- !u!114 &-1028518309220510291
 MonoBehaviour:

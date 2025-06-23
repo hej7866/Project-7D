@@ -50,7 +50,7 @@ public class SimpleZombieAI : MonoBehaviour
     {
         anim.SetBool("isChasing", false);
         anim.SetBool("isAttack", false);
-        if (target != null && Vector3.Distance(transform.position, target.position) < 4f)
+        if (target != null && Vector3.Distance(transform.position, target.position) < 8f)
         {
             state = ZombieState.Chasing;
             zombieStepAI.currentStep = StepState.Step;

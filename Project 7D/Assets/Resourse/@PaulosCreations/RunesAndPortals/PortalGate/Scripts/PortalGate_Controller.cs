@@ -25,7 +25,7 @@ public class PortalGate_Controller : MonoBehaviour
 
     private void OnEnable()
     {
-        //get materials to set color and emmision
+        // get materials
         Material[] mats = portalRenderer.materials.ToArray();
         portalMat = mats[0];
         portalEffectMat = mats[1];
@@ -38,19 +38,23 @@ public class PortalGate_Controller : MonoBehaviour
         symbolStartPos = symbolTF.localPosition;
         symbolTF.GetComponent<Renderer>().material = portalMat;
 
-        //get and set light intensity
         portalLight.color = portalEffectColor;
         lightF = portalLight.intensity;
         portalLight.intensity = 0;
 
         foreach (ParticleSystem part in effectsPartSystems)
         {
-            ParticleSystem.MainModule mod = part.main;
+            var mod = part.main;
             mod.startColor = portalEffectColor;
         }
 
+        transitionF = 0f;
+        portalActive = false;
+        inTransition = false;
+
         F_TogglePortalGate(true);
     }
+
 
     public void F_TogglePortalGate(bool _activate)
     {

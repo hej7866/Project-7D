@@ -19,6 +19,14 @@ public class TimeManager : SingleTon<TimeManager>
     public event Action<TimeOfDay> OnTimeOfDayChanged;
     public event Action<int> OnNewDay;
 
+
+    public event Action StartWave;
+    public event Action EndWave;
+
+    [Header("낮 / 밤 여부")]
+    [SerializeField] bool isNightTime = false;
+    [SerializeField] bool isDayTime = true;
+
     void Update()
     {
         currentTime += Time.deltaTime;
@@ -31,6 +39,9 @@ public class TimeManager : SingleTon<TimeManager>
         }
 
         UpdateTimePhase();
+
+        OnNightTime();
+        OnDayTime();
     }
 
     void UpdateTimePhase()
@@ -49,4 +60,27 @@ public class TimeManager : SingleTon<TimeManager>
         }
     }
 
+    void OnNightTime()
+    {
+        if (isNightTime) return;
+
+        if (currentTime / 25 >= 20) // 20시 이후
+        {
+            StartWave.Invoke();
+            isNightTime = true;
+            isDayTime = false;
+        }
+    }
+
+    void OnDayTime()
+    {
+        if (isDayTime) return;
+
+        if (currentTime / 25 >= 6 && currentTime / 25 <= 20) // 6시에서 20시 사이
+        {
+            EndWave.Invoke();
+            isDayTime = true;
+            isNightTime = false;
+        }
+    }
 }
