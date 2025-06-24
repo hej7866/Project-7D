@@ -5581,10 +5581,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsPerDay: 600
+  CurrentTimeState: 0
   CurrentDay: 0
   currentTime: 200
-  isNightTime: 0
-  isDayTime: 1
 --- !u!4 &1801088537
 Transform:
   m_ObjectHideFlags: 0

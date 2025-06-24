@@ -4,10 +4,11 @@ using System.Diagnostics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-enum ZombieState { Idle, Chasing, Attacking }
 
-public class SimpleZombieAI : MonoBehaviour
+public class DefaultZombieAI : MonoBehaviour
 {
+    public enum ZombieState { Idle, Chasing, Attacking }
+
     ZombieState state = ZombieState.Idle;
     private Transform target;
 

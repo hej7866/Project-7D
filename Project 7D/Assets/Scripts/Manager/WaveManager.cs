@@ -6,7 +6,7 @@ public class WaveManager : SingleTon<WaveManager>
     [SerializeField] private List<GameObject> portals;
     [SerializeField] private GameObject waveZombiePrefab;
 
-    RectInt area = new RectInt(0, 0, 64, 64);
+    RectInt area = new RectInt(-32, -32, 64, 64);
     float spawnTime = 0f;
 
     void Start()
@@ -19,7 +19,7 @@ public class WaveManager : SingleTon<WaveManager>
     {
         spawnTime += Time.deltaTime;
 
-        // if (TimeManager.Instance.isDayTime) return;
+        if (TimeManager.Instance.CurrentTimeState == TimeManager.TimeState.Day) return;
 
         if (spawnTime >= 3)
         {
@@ -41,13 +41,16 @@ public class WaveManager : SingleTon<WaveManager>
     private void WaveZombieSpawn()
     {
         Vector2Int pos = RandomVector2Int();
+        float radius = 10f;
+
         if (!InBase(pos))
         {
-            Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
             int ran = Random.Range(1, 7);
 
             for (int i = 1; i < ran; i++)
-            {   
+            {
+                Vector2 randomOffset = Random.insideUnitCircle * radius;
+                Vector3 newPos = new Vector3(pos.x + randomOffset.x, 0f, pos.y + randomOffset.y);
                 Instantiate(waveZombiePrefab, newPos, Quaternion.identity, transform);
             }
         }
@@ -62,14 +65,14 @@ public class WaveManager : SingleTon<WaveManager>
     }
 
 
-    Vector2Int RandomVector2Int()
+    private Vector2Int RandomVector2Int()
     {
         int x = Random.Range(-256, 256);
         int y = Random.Range(-256, 256);
         return new Vector2Int(x, y);
     }
 
-    bool InBase(Vector2Int pos)
+    public bool InBase(Vector2Int pos)
     {
         bool isInside = area.Contains(pos);
         return isInside;
