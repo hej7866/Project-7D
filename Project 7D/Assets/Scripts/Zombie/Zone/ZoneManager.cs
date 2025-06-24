@@ -86,11 +86,12 @@ public class ZoneManager : SingleTon<ZoneManager>
     {
         return biome switch
         {
+            BiomeType.Base => 0f,
             BiomeType.City => 0.5f,
             BiomeType.Forest => 0.8f,
             BiomeType.Desert => 1.5f,
             BiomeType.Snow => 1.8f,
-            _ => 1f
+            _ => 0f
         };
     }
 

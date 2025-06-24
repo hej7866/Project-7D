@@ -4749,6 +4749,8 @@ MonoBehaviour:
   - {fileID: 200149495}
   - {fileID: 1183230745}
   - {fileID: 837205041}
+  waveZombiePrefab: {fileID: 3170052297267817369, guid: a34c3b242d35e5742abc424d731abd55,
+    type: 3}
 --- !u!4 &1602039185
 Transform:
   m_ObjectHideFlags: 0

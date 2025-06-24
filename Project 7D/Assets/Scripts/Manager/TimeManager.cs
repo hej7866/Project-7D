@@ -24,8 +24,8 @@ public class TimeManager : SingleTon<TimeManager>
     public event Action EndWave;
 
     [Header("낮 / 밤 여부")]
-    [SerializeField] bool isNightTime = false;
-    [SerializeField] bool isDayTime = true;
+    public bool isNightTime = false;
+    public bool isDayTime = true;
 
     void Update()
     {
