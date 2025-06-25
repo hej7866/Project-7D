@@ -1,17 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GridManager : MonoBehaviour
+public class GridManager : SingleTon<GridManager>
 {
-    public int Width = 1024;
-    public int Height = 1024;
-    public float CellSize = 1/16f;
+    public int Width = 512;
+    public int Height = 512;
+    public float CellSize = 1f;
     public LayerMask ObstacleMask;
+
+    // 월드 좌표계 기준 그리드 시작점 (좌하단)
+    public Vector2Int GridOrigin = new Vector2Int(-256, -256);
 
     private Node[,] grid;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         InitializeGrid();
     }
 
@@ -23,33 +27,50 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < Height; y++)
             {
-                Vector3 worldPos = new Vector3(x * CellSize, 0, y * CellSize);
+                Vector2Int gridPos = new Vector2Int(x, y);
+                Vector3 worldPos = GridToWorld(gridPos);
+
                 bool walkable = !Physics.CheckSphere(worldPos, 0.4f, ObstacleMask);
-                grid[x, y] = new Node(new Vector2Int(x, y), walkable);
+
+                grid[x, y] = new Node(gridPos, walkable);
             }
         }
     }
 
-    public Node GetNode(Vector2Int pos)
-    {
-        if (pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height)
-            return grid[pos.x, pos.y];
-        else
-            return null;
-    }
-
+    /// <summary>
+    /// 월드 좌표 → 그리드 인덱스 변환 (Grid 배열 접근용)
+    /// </summary>
     public Vector2Int WorldToGrid(Vector3 worldPos)
     {
-        int x = Mathf.RoundToInt(worldPos.x / CellSize);
-        int y = Mathf.RoundToInt(worldPos.z / CellSize);
+        int x = Mathf.FloorToInt((worldPos.x - GridOrigin.x) / CellSize);
+        int y = Mathf.FloorToInt((worldPos.z - GridOrigin.y) / CellSize);
         return new Vector2Int(x, y);
     }
 
+    /// <summary>
+    /// 그리드 인덱스 → 월드 좌표 (중심 기준)
+    /// </summary>
     public Vector3 GridToWorld(Vector2Int gridPos)
     {
-        return new Vector3(gridPos.x * CellSize, 0, gridPos.y * CellSize);
+        float worldX = GridOrigin.x + gridPos.x * CellSize + CellSize / 2f;
+        float worldZ = GridOrigin.y + gridPos.y * CellSize + CellSize / 2f;
+        return new Vector3(worldX, 0f, worldZ);
     }
 
+
+    /// <summary>
+    /// 월드 좌표 기준의 노드를 반환
+    /// </summary>
+    public Node GetNode(Vector2Int gridIndex)
+    {
+        if (gridIndex.x >= 0 && gridIndex.x < Width && gridIndex.y >= 0 && gridIndex.y < Height)
+            return grid[gridIndex.x, gridIndex.y];
+        return null;
+    }
+
+    /// <summary>
+    /// 인접한 8방향의 노드 반환
+    /// </summary>
     public List<Node> GetNeighbors(Node node)
     {
         var neighbors = new List<Node>();
@@ -62,12 +83,12 @@ public class GridManager : MonoBehaviour
 
         foreach (var dir in directions)
         {
-            Vector2Int newPos = node.position + dir;
-            Node neighbor = GetNode(newPos);
+            Vector2Int neighborWorldPos = node.position + dir;
+            Node neighbor = GetNode(neighborWorldPos);
 
             if (neighbor != null && neighbor.isWalkable)
             {
-                // 대각선 통과 제한 로직 (코너 끼우기 방지)
+                // 대각선 이동 시 코너 충돌 방지
                 if (Mathf.Abs(dir.x) == 1 && Mathf.Abs(dir.y) == 1)
                 {
                     Node n1 = GetNode(node.position + new Vector2Int(dir.x, 0));

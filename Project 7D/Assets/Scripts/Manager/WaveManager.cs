@@ -7,6 +7,7 @@ public class WaveManager : SingleTon<WaveManager>
     [SerializeField] private GameObject waveZombiePrefab;
 
     RectInt area = new RectInt(-32, -32, 64, 64);
+    Rect area2 = new Rect(-32, -32, 64, 64);
     float spawnTime = 0f;
 
     void Start()
@@ -51,6 +52,11 @@ public class WaveManager : SingleTon<WaveManager>
             {
                 Vector2 randomOffset = Random.insideUnitCircle * radius;
                 Vector3 newPos = new Vector3(pos.x + randomOffset.x, 0f, pos.y + randomOffset.y);
+
+                // 랜덤 위치가 베이스 밖인지 체크하는 로직
+                Vector2 checkPos = new Vector2(pos.x + randomOffset.x, pos.y + randomOffset.y); 
+                if (InBase(checkPos)) continue; // 오버로딩 사용
+
                 Instantiate(waveZombiePrefab, newPos, Quaternion.identity, transform);
             }
         }
@@ -75,6 +81,12 @@ public class WaveManager : SingleTon<WaveManager>
     public bool InBase(Vector2Int pos)
     {
         bool isInside = area.Contains(pos);
+        return isInside;
+    }
+
+    public bool InBase(Vector2 pos)
+    {
+        bool isInside = area2.Contains(pos);
         return isInside;
     }
 }
