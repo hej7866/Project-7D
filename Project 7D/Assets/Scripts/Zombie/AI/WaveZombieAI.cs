@@ -1,40 +1,31 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class WaveZombieAI : MonoBehaviour
 {
     public enum ZombieState { ToBase, ToPlayer, Attacking }
-    private ZombieState currentZombieState = ZombieState.ToBase;
+    [SerializeField] private ZombieState currentState = ZombieState.ToBase;
 
-    [SerializeField] private float detectPlayerRange = 10f;
-    [SerializeField] private float zombieAttackRange = 0.3f;
-    [SerializeField] private float zombieAttackPower = 5f;
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float detectRange = 10f;
+    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private float attackPower = 5f;
 
-    [SerializeField] private Transform playerTarget;
-    [SerializeField] private Vector3 baseTarget;
-
+    private Transform player;
+    private Transform baseHeart;
+    private NavMeshAgent agent;
     private Animator anim;
+
     private float detectInterval = 1f;
     private float detectTimer = 0f;
 
-    private List<Vector3> path = new();
-    private int pathIndex = 0;
-
-    private GridManager grid;
-    private AStarPathfinder pathfinder;
-
     void Start()
     {
-        baseTarget = Vector3.zero;
-        playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
-
-        grid = GridManager.Instance;
-        pathfinder = new AStarPathfinder(grid);
-
+        agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        baseHeart = GameObject.FindGameObjectWithTag("Heart").transform;
 
-        RequestPathTo(baseTarget);
+        SetDestination(baseHeart.position);
     }
 
     void Update()
@@ -43,128 +34,77 @@ public class WaveZombieAI : MonoBehaviour
         if (detectTimer >= detectInterval)
         {
             detectTimer = 0f;
-            CheckForPlayer();
+            UpdateTarget();
         }
 
-        if (currentZombieState == ZombieState.Attacking)
+        UpdateAnimation();
+
+        if (currentState == ZombieState.Attacking)
         {
-            AttackUpdate();
-            return;
+            FaceTarget(player);
+            // 공격 조건 확인
+            float dist = Vector3.Distance(transform.position, player.position);
+            if (dist > attackRange)
+            {
+                currentState = ZombieState.ToPlayer;
+                SetDestination(player.position);
+            }
         }
-
-        FollowPath();
     }
 
-    void CheckForPlayer()
+    void UpdateTarget()
     {
-        if (playerTarget == null) return;
+        float distToPlayer = Vector3.Distance(transform.position, player.position);
+        float distToHeart = Vector3.Distance(transform.position, baseHeart.position);
 
-        float dist = Vector3.Distance(transform.position, playerTarget.position);
-
-        if (dist <= detectPlayerRange)
+        if (distToPlayer <= detectRange)
         {
-            if (currentZombieState != ZombieState.ToPlayer)
+            currentState = ZombieState.ToPlayer;
+            SetDestination(player.position);
+
+            if (distToPlayer <= attackRange)
             {
-                currentZombieState = ZombieState.ToPlayer;
-                RequestPathTo(playerTarget.position);
+                currentState = ZombieState.Attacking;
+                agent.isStopped = true;
             }
         }
         else
         {
-            if (currentZombieState != ZombieState.ToBase)
-            {
-                currentZombieState = ZombieState.ToBase;
-                RequestPathTo(baseTarget);
-            }
-        }
-
-        if (dist <= zombieAttackRange)
-        {
-            currentZombieState = ZombieState.Attacking;
+            currentState = ZombieState.ToBase;
+            SetDestination(baseHeart.position);
         }
     }
 
-    void RequestPathTo(Vector3 worldTarget)
+    void SetDestination(Vector3 target)
     {
-        Vector2Int start = grid.WorldToGrid(transform.position);
-        Vector2Int end = grid.WorldToGrid(worldTarget);
-
-        Debug.Log($"[A* 요청] From {start} → {end}");
-
-        Node startNode = grid.GetNode(start);
-        Node endNode = grid.GetNode(end);
-
-        if (startNode == null)
-        {
-            Debug.LogError("시작 노드가 null입니다!");
-            return;
-        }
-        if (endNode == null)
-        {
-            Debug.LogError("도착 노드가 null입니다!");
-            return;
-        }
-        if (!endNode.isWalkable)
-        {
-            Debug.LogError($"도착 노드가 막혀 있음! {endNode.position}");
-            return;
-        }
-
-        List<Node> nodePath = pathfinder.FindPath(start, end);
-
-        path.Clear();
-        pathIndex = 0;
-
-        if (nodePath == null || nodePath.Count == 0)
-        {
-            Debug.LogWarning($"경로 탐색 실패! (start={start}, end={end})");
-            return;
-        }
-
-        Debug.Log($"경로 성공: {nodePath.Count} 노드");
-        foreach (var node in nodePath)
-            path.Add(grid.GridToWorld(node.position));
+        agent.isStopped = false;
+        agent.SetDestination(target);
     }
 
-    void FollowPath()
+    void UpdateAnimation()
     {
-        if (path.Count == 0 || pathIndex >= path.Count)
-        {
-            Debug.LogWarning($"{name} - 경로 없음 또는 도착함. path.Count = {path.Count}, pathIndex = {pathIndex}");
-            return;
-        }
-
-        Vector3 targetPos = path[pathIndex];
-        Vector3 dir = (targetPos - transform.position).normalized;
-
-        transform.position += dir * moveSpeed * Time.deltaTime;
-        transform.rotation = Quaternion.LookRotation(dir);
-
-        if (Vector3.Distance(transform.position, targetPos) < 0.2f)
-        {
-            pathIndex++;
-        }
-
-        anim.SetBool("isChasing", true);
-        anim.SetBool("isAttack", false);
+        bool isMoving = agent.velocity.magnitude > 0.1f;
+        anim.SetBool("isChasing", isMoving);
+        anim.SetBool("isAttack", currentState == ZombieState.Attacking);
     }
 
-    void AttackUpdate()
+    void FaceTarget(Transform target)
     {
-        anim.SetBool("isChasing", false);
-        anim.SetBool("isAttack", true);
-
-        if (Vector3.Distance(transform.position, playerTarget.position) > zombieAttackRange)
+        Vector3 dir = (target.position - transform.position).normalized;
+        dir.y = 0;
+        if (dir != Vector3.zero)
         {
-            currentZombieState = ZombieState.ToPlayer;
-            RequestPathTo(playerTarget.position);
+            Quaternion rot = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, 10f * Time.deltaTime);
         }
     }
 
+    // Animation Event로 연결
     public void ZombieAttack()
     {
-        if (Vector3.Distance(transform.position, playerTarget.position) > zombieAttackRange) return;
-
-        PlayerController.Instance.TakeDamage(zombieAttackPower);
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        {
+            PlayerController.Instance.TakeDamage(attackPower);
+        }
     }
 }

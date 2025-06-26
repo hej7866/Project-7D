@@ -10,6 +10,7 @@ public class GridManager : SingleTon<GridManager>
 
     // 월드 좌표계 기준 그리드 시작점 (좌하단)
     public Vector2Int GridOrigin = new Vector2Int(-256, -256);
+    [SerializeField] private float radius;
 
     private Node[,] grid;
 
@@ -29,8 +30,8 @@ public class GridManager : SingleTon<GridManager>
             {
                 Vector2Int gridPos = new Vector2Int(x, y);
                 Vector3 worldPos = GridToWorld(gridPos);
-
-                bool walkable = !Physics.CheckSphere(worldPos, 0.4f, ObstacleMask);
+                
+                bool walkable = !Physics.CheckSphere(worldPos, radius, ObstacleMask);
 
                 grid[x, y] = new Node(gridPos, walkable);
             }
@@ -103,4 +104,5 @@ public class GridManager : SingleTon<GridManager>
 
         return neighbors;
     }
+
 }

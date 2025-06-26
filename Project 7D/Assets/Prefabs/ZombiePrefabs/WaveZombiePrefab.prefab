@@ -1186,6 +1186,7 @@ GameObject:
   - component: {fileID: 2651970728943526766}
   - component: {fileID: -1885591024872478997}
   - component: {fileID: -2739341493054398236}
+  - component: {fileID: 5234554323181994903}
   m_Layer: 15
   m_Name: WaveZombiePrefab
   m_TagString: Untagged
@@ -1307,13 +1308,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6fa9644603f82d42bcbdfaf6a766b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentZombieState: 0
-  detectPlayerRange: 50
-  zombieAttackRange: 0.3
-  zombieAttackPower: 5
-  moveSpeed: 2
-  playerTarget: {fileID: 0}
-  baseTarget: {x: 0, y: 0, z: 0}
+  currentState: 0
+  detectRange: 10
+  attackRange: 0.5
+  attackPower: 5
+--- !u!195 &5234554323181994903
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170052297267817369}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &3307816542310762037
 GameObject:
   m_ObjectHideFlags: 0
