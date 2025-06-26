@@ -6,7 +6,7 @@ TagManager:
   tags:
   - PlainTile
   - BaseWall
-  - BassWall
+  - Heart
   layers:
   - Default
   - TransparentFX

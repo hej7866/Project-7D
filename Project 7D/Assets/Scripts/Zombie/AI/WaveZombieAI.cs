@@ -39,16 +39,21 @@ public class WaveZombieAI : MonoBehaviour
 
         UpdateAnimation();
 
-        if (currentState == ZombieState.Attacking)
+        switch (currentState)
         {
-            FaceTarget(player);
-            // 공격 조건 확인
-            float dist = Vector3.Distance(transform.position, player.position);
-            if (dist > attackRange)
-            {
-                currentState = ZombieState.ToPlayer;
-                SetDestination(player.position);
-            }
+            case ZombieState.ToPlayer:
+                FaceTarget(player);
+                break;
+            case ZombieState.Attacking:
+                FaceTarget(player);
+
+                float dist = Vector3.Distance(transform.position, player.position);
+                if (dist > attackRange)
+                {
+                    currentState = ZombieState.ToPlayer;
+                    SetDestination(player.position);
+                }
+                break;
         }
     }
 
@@ -84,7 +89,7 @@ public class WaveZombieAI : MonoBehaviour
     void UpdateAnimation()
     {
         bool isMoving = agent.velocity.magnitude > 0.1f;
-        anim.SetBool("isChasing", isMoving);
+        anim.SetBool("isRunning", isMoving);
         anim.SetBool("isAttack", currentState == ZombieState.Attacking);
     }
 
@@ -94,8 +99,7 @@ public class WaveZombieAI : MonoBehaviour
         dir.y = 0;
         if (dir != Vector3.zero)
         {
-            Quaternion rot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, 10f * Time.deltaTime);
+            transform.rotation  = Quaternion.LookRotation(dir);
         }
     }
 
