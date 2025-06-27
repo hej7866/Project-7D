@@ -1310,7 +1310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   detectRange: 10
-  attackRange: 0.5
+  attackPlayerRange: 0.5
+  attackHeartRange: 1.8
   attackPower: 5
 --- !u!195 &5234554323181994903
 NavMeshAgent:

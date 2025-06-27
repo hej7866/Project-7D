@@ -8,7 +8,7 @@ public class HeartController : SingleTon<HeartController>
     [Header("심장 설정")]
     public float MaxHealth = 500f;
 
-    public event Action<float> OnHeartHealthChanged;
+    //public event Action<float> OnHeartHealthChanged;
 
     private bool isDestroyed = false;
 
@@ -19,7 +19,7 @@ public class HeartController : SingleTon<HeartController>
         private set
         {
             _heartHealth = Mathf.Clamp(value, 0, MaxHealth);
-            //OnHeartHealthChanged.Invoke(_heartHealth);
+            Debug.Log($"{_heartHealth}");
             if (_heartHealth <= 0 && !isDestroyed)
             {
                 Destroyed();

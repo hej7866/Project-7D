@@ -3,17 +3,19 @@ using UnityEngine.AI;
 
 public class WaveZombieAI : MonoBehaviour
 {
-    public enum ZombieState { ToBase, ToPlayer, Attacking }
+    public enum ZombieState { ToBase, ToPlayer, ToHeart, AttackPlayer, AttackHeart, }
     [SerializeField] private ZombieState currentState = ZombieState.ToBase;
 
     [SerializeField] private float detectRange = 10f;
-    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private float attackPlayerRange = 0.5f;
+    [SerializeField] private float attackHeartRange = 2f;
     [SerializeField] private float attackPower = 5f;
 
     private Transform player;
     private Transform baseHeart;
     private NavMeshAgent agent;
     private Animator anim;
+    [SerializeField] private Transform target;
 
     private float detectInterval = 1f;
     private float detectTimer = 0f;
@@ -24,6 +26,8 @@ public class WaveZombieAI : MonoBehaviour
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         baseHeart = GameObject.FindGameObjectWithTag("Heart").transform;
+
+        agent.avoidancePriority = Random.Range(40, 60);
 
         SetDestination(baseHeart.position);
     }
@@ -42,17 +46,23 @@ public class WaveZombieAI : MonoBehaviour
         switch (currentState)
         {
             case ZombieState.ToPlayer:
-                FaceTarget(player);
+                FaceTarget(target);
                 break;
-            case ZombieState.Attacking:
-                FaceTarget(player);
+            case ZombieState.ToHeart:
+                FaceTarget(target);
+                break;
+            case ZombieState.AttackPlayer:
+                FaceTarget(target);
 
                 float dist = Vector3.Distance(transform.position, player.position);
-                if (dist > attackRange)
+                if (dist > attackPlayerRange)
                 {
                     currentState = ZombieState.ToPlayer;
-                    SetDestination(player.position);
+                    SetDestination(target.position);
                 }
+                break;
+            case ZombieState.AttackHeart:
+                FaceTarget(target);
                 break;
         }
     }
@@ -61,22 +71,48 @@ public class WaveZombieAI : MonoBehaviour
     {
         float distToPlayer = Vector3.Distance(transform.position, player.position);
         float distToHeart = Vector3.Distance(transform.position, baseHeart.position);
+        bool inBase = WaveManager.Instance.InBase(transform.position);
 
-        if (distToPlayer <= detectRange)
+        if(inBase) BaseAI(distToPlayer, distToHeart);
+    }
+
+    void BaseAI(float distToPlayer, float distToHeart)
+    {
+        if (distToPlayer <= detectRange && distToHeart <= detectRange) // 둘다 거리안에있다면
         {
             currentState = ZombieState.ToPlayer;
-            SetDestination(player.position);
+            target = player;
+            SetDestination(target.position);
 
-            if (distToPlayer <= attackRange)
+            if (distToPlayer <= attackPlayerRange) // 추적하다가 공격사거리안에 들어오면
             {
-                currentState = ZombieState.Attacking;
+                currentState = ZombieState.AttackPlayer;
+                agent.isStopped = true;
+            }
+        }
+        else if (distToPlayer <= detectRange && distToHeart > detectRange) // 플레이어만 거리안에있다면
+        {
+            currentState = ZombieState.ToPlayer;
+            target = player;
+            SetDestination(target.position);
+
+            if (distToPlayer <= attackPlayerRange) // 추적하다가 공격사거리안에 들어오면
+            {
+                currentState = ZombieState.AttackPlayer;
                 agent.isStopped = true;
             }
         }
         else
         {
-            currentState = ZombieState.ToBase;
-            SetDestination(baseHeart.position);
+            currentState = ZombieState.ToHeart;
+            target = baseHeart;
+            SetDestination(target.position);
+
+            if (distToHeart <= attackHeartRange) // 추적하다가 공격사거리안에 들어오면
+            {
+                currentState = ZombieState.AttackHeart;
+                agent.isStopped = true;
+            }
         }
     }
 
@@ -90,7 +126,7 @@ public class WaveZombieAI : MonoBehaviour
     {
         bool isMoving = agent.velocity.magnitude > 0.1f;
         anim.SetBool("isRunning", isMoving);
-        anim.SetBool("isAttack", currentState == ZombieState.Attacking);
+        anim.SetBool("isAttack", currentState == ZombieState.AttackPlayer || currentState == ZombieState.AttackHeart);
     }
 
     void FaceTarget(Transform target)
@@ -106,9 +142,20 @@ public class WaveZombieAI : MonoBehaviour
     // Animation Event로 연결
     public void ZombieAttack()
     {
-        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        switch (currentState)
         {
-            PlayerController.Instance.TakeDamage(attackPower);
+            case ZombieState.AttackPlayer:
+                if (Vector3.Distance(transform.position, player.position) <= attackPlayerRange)
+                {
+                    PlayerController.Instance.TakeDamage(attackPower);
+                }
+                break;
+            case ZombieState.AttackHeart:
+                if (Vector3.Distance(transform.position, baseHeart.position) <= attackHeartRange)
+                {
+                    HeartController.Instance.TakeDamage(attackPower);
+                }
+                break;
         }
     }
 }
