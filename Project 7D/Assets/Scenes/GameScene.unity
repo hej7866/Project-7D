@@ -6233,7 +6233,7 @@ MonoBehaviour:
   secondsPerDay: 600
   CurrentTimeState: 0
   CurrentDay: 0
-  currentTime: 200
+  currentTime: 530
 --- !u!4 &1801088537
 Transform:
   m_ObjectHideFlags: 0
