@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6b94209b6db774ca07a5971e3044c6, type: 3}
+  m_Name: TempData
+  m_EditorClassIdentifier: 
+  displayName: "\uC784\uC2DC\uB370\uC774\uD130\uC785\uB2C8\uB2E4."
+  desc: "\uC784\uC2DC\uB370\uC774\uD130\uC785\uB2C8\uB2E4 \uC784\uC2DC\uB370\uC774\uD130\uC785\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 265a589534c465846a18d52156d9d1ad, type: 3}
+  itemType: 0
+  requirements_Resource: 00000000
+  requirements_Value: 5

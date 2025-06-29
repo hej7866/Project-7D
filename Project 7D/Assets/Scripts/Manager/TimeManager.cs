@@ -14,7 +14,7 @@ public class TimeManager : SingleTon<TimeManager>
     public int CurrentDay;
     [SerializeField] private float currentTime = 0f; // 인스펙터 획인용
 
-    public float TimeOfDay => currentTime / 25;
+    public float TimeOfDay => currentTime / 75;
     public float DayPercent => currentTime / secondsPerDay;
 
     public event Action<int> OnNewDay;

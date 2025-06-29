@@ -10,7 +10,7 @@ public class HeartController : SingleTon<HeartController>
 
     //public event Action<float> OnHeartHealthChanged;
 
-    private bool isDestroyed = false;
+    public bool isDestroyed = false;
 
     private float _heartHealth;
     public float HeartHealth
@@ -39,6 +39,7 @@ public class HeartController : SingleTon<HeartController>
 
     void Destroyed()
     {
+        isDestroyed = true;
         Destroy(gameObject);
     }
 }
